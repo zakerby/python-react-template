@@ -1,13 +1,9 @@
-import random
-
 from flask_jwt_extended import get_jwt_identity
 from http import HTTPStatus
 
 from lwca.models.project import Project
-from lwca.services.llm_service import get_llm_model
-from lwca.services.repository_parser.repo_parser import clone_repository
 
-from lwca.logging import log_info
+from lwca.logging import log_info, log_error
 
 from lwca.handlers.constants import (
     PROJECT_CREATED,
@@ -15,9 +11,6 @@ from lwca.handlers.constants import (
     NAME_OR_REPOSITORY_URL_MISSING,
     PROJECT_NOT_FOUND,
     PROJECT_DELETED,
-    ERROR_DURING_ANALYSIS,
-    NO_FILES_OR_REPOSITORY_URL_PROVIDED,
-    NO_QUERY_PROVIDED,
     NO_PAYLOAD_PROVIDED
 )
 
@@ -36,8 +29,10 @@ def handle_create_project(data):
                 current_user_id = get_jwt_identity()
                 project = Project(name=name, repository_url=repository_url, analysis_status='pending', user_id=current_user_id)
                 project.save()
+                log_info(f'Project {project.name} created by user {current_user_id}')
                 return {'message': PROJECT_CREATED, 'project': project.to_dict()}, HTTPStatus.CREATED
             except Exception as e:
+                log_error(f'Error saving project: {str(e)}')
                 return {'message': ERROR_SAVING_PROJECT.format(str(e))}, HTTPStatus.INTERNAL_SERVER_ERROR
         else:
             return {'message': NAME_OR_REPOSITORY_URL_MISSING}, HTTPStatus.BAD_REQUEST
@@ -92,67 +87,12 @@ def handle_delete_project(project_id):
     current_user_id = get_jwt_identity()
     project = Project.query.filter_by(id=project_id, user_id=current_user_id).first()
     if project is not None:
-        project.delete()
-        return {'message': PROJECT_DELETED}, HTTPStatus.OK
+        try:
+            project.delete()
+            log_info(f'Project {project.name} deleted by user {current_user_id}')
+            return {'message': PROJECT_DELETED}, HTTPStatus.OK
+        except Exception as e:
+            log_error(f'Error deleting project: {str(e)}')
+            return {'message': str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR
     else:
         return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
-
-def handle_project_analysis(project_id):
-    """
-        Execute a repository analysis
-        Parameters:
-            - data (dict): JSON payload.
-                           This payload must contains a key 'repo_url' with the URL of the repository to analyze.
-    """
-    project = Project.query.filter_by(id=project_id).first()
-    if project is not None:
-        repo_url = project.repository_url
-        if repo_url is not None:
-            # first check if the repository has already been cloned and analyzed with the current commit
-            try:
-                repository_infos = clone_repository(repo_url)
-                return {'repository_infos': repository_infos}, HTTPStatus.OK
-            except Exception as e:
-                return {'message': ERROR_DURING_ANALYSIS.format(str(e))}, HTTPStatus.INTERNAL_SERVER_ERROR
-        else:
-            return {'message': NO_FILES_OR_REPOSITORY_URL_PROVIDED}, HTTPStatus.BAD_REQUEST
-    else:
-        return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
-
-def handle_project_analysis_logs(project_id):
-    """
-        Get the logs of the analysis of a project
-    """
-    project = Project.query.filter_by(id=project_id).first()
-    if project is not None:
-        return {'logs': project.analysis_logs}, HTTPStatus.OK
-    else:
-        return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
-
-def handle_query_llm(project_id, data):
-    """
-        Send a query to the LLM model
-    """
-    project = Project.query.filter_by(id=project_id).first()
-    if data is not None:
-        query = data.get('query')
-        if query is not None:
-            try:
-                response_message = get_llm_model().invoke(query)
-                message = {
-                    # random id for now
-                    'id': random.randint(0, 1000),
-                    'project_id': project.id,
-                    'message': response_message,
-                    'user': {
-                        'id': -1,
-                        'name': 'Robot'
-                    }
-                }
-                return {'message': message}, HTTPStatus.OK
-            except Exception as e:
-                return {'message': str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR
-        else:
-            return {'message': NO_QUERY_PROVIDED}, HTTPStatus.BAD_REQUEST
-    else:
-        return {'message': NO_PAYLOAD_PROVIDED}, HTTPStatus.BAD_REQUEST
