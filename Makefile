@@ -25,6 +25,10 @@ backend-shell:
 backend-log:
 	docker compose logs -f backend
 
+python-tests:
+	docker compose run worker \
+	  poetry run pytest
+
 python-shell:
 	docker compose run worker \
 	  poetry run flask shell
