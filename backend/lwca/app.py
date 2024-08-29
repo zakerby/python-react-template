@@ -67,7 +67,7 @@ class Application:
         # Register the public routes
         # TODO: Update this to add url_prefix to organize the API
         # ex: app.register_blueprint(bp, url_prefix='/project')
-        for blueprint in [routes.auth, routes.localstack, routes.projects]:
+        for blueprint in [routes.auth, routes.projects]:
             self.flask_app.register_blueprint(blueprint)
 
     def init_routes(self):
