@@ -37,7 +37,7 @@ def delete_project(project_id):
         return jsonify(message), error_code
 
 
-@blueprint.route('/api/v1/project/<int:project_id>', methods=['PUT'])
+@blueprint.route('/api/v1/project/<int:project_id>', methods=['PATCH'])
 def update_project(project_id):
     if request.method == 'PATCH':
         payload = request.json
