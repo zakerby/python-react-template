@@ -6,46 +6,33 @@
 # Set the base URL
 BASE_URL="http://localhost:8080/api/v1"
 
+# Get the folder of the script
+SCRIPT_DIR=$(dirname "$0")
+SCRIPT_DIR=$(realpath "$SCRIPT_DIR")
 
-# First register a new user
-echo "Registering a new user"
-
-# generate a random username
-username="user_$(date +%s)"
-username_email="user_$(date +%s)@azk.com"
-password="password"
-
-register_response=$(curl -s -o /dev/null -w "%{http_code}" -H "Content-Type: application/json" \
-     -d "{\"username\": \"$username\", \"password\": \"$password\", \"confirm_password\": \"$password\", \"email\": \"$username_email\"}" \
-     -X POST $BASE_URL/auth/register)
-
-if [ "$register_response" -eq 200 ]; then
-    echo "Register request was successful."
-else
-    echo "Request failed with status code $register_response."
-    exit 1
-fi
-
-# Login with the new user
-echo "Logging in with the new user"
-login_response=$(curl -s -H "Content-Type: application/json" \
-     -d "{\"username\": \"$USERNAME\", \"password\": \"$PASSWORD\"}" \
-     -X POST $BASE_URL/auth/login)
-
-# Check if the login_response contains the access_token field
-access_token=$(echo $login_response | jq -r '.access_token // empty')
+# Get the access token by calling the register_and_login.sh script
+access_token=$(sh $SCRIPT_DIR/test_auth_api.sh -b $BASE_URL)
 
 if [ -n "$access_token" ]; then
-    echo "Request was successful. Access token: $access_token"
+    echo "Access token: $access_token"
+    # Continue with the rest of the script
 else
-    echo "Request failed or access_token not found in the response."
+    echo "Failed to obtain access token."
     exit 1
 fi
 
-
+# Projects requests
+echo "Testing projects API..."
+sh "$SCRIPT_DIR/test_project_api.sh" -t $access_token -b $BASE_URL
 
 # Clean-up - deleting entities created during the test
 echo "Cleaning up..."
-delete_user_response=$(curl -s -H "Content-Type: application/json" \
-     -d "{\"username\": \"$USERNAME\", \"password\": \"$PASSWORD\"}" \
-     -X POST $BASE_URL/auth/login)
+delete_user_response=$(curl -s -o /dev/null -w "%{http_code}" \
+                     -H "Authorization: Bearer $access_token" \
+                     -X DELETE http://localhost:8080/api/v1/user)
+if [ "$delete_user_response" -eq 200 ]; then
+    echo "User deleted successfully."
+else
+    echo "Failed to delete user."
+    exit 1
+fi
