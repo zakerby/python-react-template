@@ -96,3 +96,26 @@ def handle_delete_project(project_id):
             return {'message': str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR
     else:
         return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
+    
+def handle_update_project(project_id, data):
+    """
+        Handle the update of a project
+        Description:
+            - The function updates a project in the database
+    """
+    current_user_id = get_jwt_identity()
+    project = Project.query.filter_by(id=project_id, user_id=current_user_id).first()
+    if project is not None:
+        if data is not None:        
+            project.name = data.get('name', project.name)
+            project.repository_url = data.get('repository_url', project.repository_url)
+            project.analysis_status = data.get('analysis_status', project.analysis_status)
+            project.analysis_results = data.get('analysis_results', project.analysis_results)
+            try:
+                project.save()
+                return {'message': 'Project updated', 'project': project.to_dict()}, HTTPStatus.OK
+            except Exception as e:
+                return {'message': str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR
+        return {'message': NO_PAYLOAD_PROVIDED}, HTTPStatus.BAD_REQUEST
+    else:
+        return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
