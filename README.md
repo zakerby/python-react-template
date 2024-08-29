@@ -1,57 +1,99 @@
-# LWCA: A tool to help reverse engineering of applications using LLM
+# Python/Flask and TypeScript/React Starter Project
 
-This project is a web application designed to analyze Git repositories using Large Language Models (LLMs), aiding in the reverse engineering process. It leverages a Python/Flask backend and a TypeScript/React frontend to provide a comprehensive platform for repository analysis.
+This is a starter project that implements a backend API using Python and Flask, and a frontend using TypeScript, React, Tailwind CSS, and Recoil for state management.
 
-## Features
+## Project Structure
 
-- **Repository Analysis**: Deep analysis of Git repositories using state-of-the-art LLMs to understand code structure, dependencies, and potential improvements.
-- **Reverse Engineering Tools**: Tools and utilities to assist in the reverse engineering of codebases, making it easier to understand complex projects.
-- **Interactive UI**: A React-based frontend that offers an interactive and user-friendly interface for submitting repositories for analysis and viewing insights.
-- **Scalable Backend**: A Flask backend that efficiently handles analysis tasks, ensuring fast and reliable processing of large repositories.
+- **backend/**: Contains the Flask backend API.
+- **frontend/**: Contains the React frontend application.
 
-## Technologies
+## Backend
 
-- **Frontend**: TypeScript with React for building a dynamic and responsive UI.
-- **Backend**: Python with Flask for a lightweight and efficient server-side application.
-- **Database**: PostgreSQL for storing analysis results and user data.
-- **Task Queue**: Celery with Redis for managing long-running analysis tasks.
-- **Containerization**: Docker and Docker Compose for easy deployment and scaling.
-- **Local Development**: LocalStack for simulating AWS cloud services locally.
+The backend is built with Python and Flask. It provides a RESTful API for the frontend to interact with.
 
-## Getting Started
+### Features
 
-To get started with the Git Repository Analysis Platform, follow these steps:
+- User authentication and authorization
+- CRUD operations for various resources
+- JWT-based authentication
 
-1. **Clone the repository**:
+### Setup
+
+1. Navigate to the `backend` directory:
+   ```bash
+   cd backend
    ```
-   git clone https://github.com/zakerby/lwca
-   ```
-2. **Navigate to the project directory**:
-   ```
-   cd lwca
-   ```
-3. **Build the project**:
-   ```
-   make develop
-   ```
-4. **Access the application**:
-   - Frontend: Visit http://localhost:5173 to access the web interface.
-   - Backend/API: Access the API at http://localhost:8080/api/v1/.
 
-## API Description
+2. Create a virtual environment:
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
 
-### Project
+3. Install the dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Run the Flask application:
+   ```bash
+   flask run
+   ```
+
+### Environment Variables
 
 
-## Dependencies
+##
 
-- Docker & Docker Compose: Required for building and running the application.
-- Make: Used for simplifying command execution during development.
+ Frontend
+
+The frontend is built with TypeScript, React, Tailwind CSS, and Recoil for state management.
+
+### Features
+
+- User authentication and authorization
+- Responsive design with Tailwind CSS
+- State management with Recoil
+
+### Setup
+
+```bash
+make develop
+```
+
+### Environment Variables
+
+Create a `.env` file in the `frontend` directory and add the following environment variables:
+
+```
+REACT_APP_API_URL=http://localhost:5000/api
+```
+
+## Running Tests
+
+### Backend
+
+To run tests for the backend, navigate to the `backend` directory and run:
+
+```bash
+pytest
+```
+
+### Frontend
+
+To run tests for the frontend, navigate to the `frontend` directory and run:
+
+```bash
+npm test
+```
 
 ## Contributing
 
-Contributions to the Git Repository Analysis Platform are welcome! Whether it's submitting a bug report, proposing new features, or contributing code, we encourage you to get involved.
+Contributions are welcome! Please open an issue or submit a pull request for any changes.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. See the LICENSE file for details.
+```
+
+This README provides an overview of the project, setup instructions for both the backend and frontend, and information on running tests and contributing. Adjust the details as necessary to fit your specific project setup.
