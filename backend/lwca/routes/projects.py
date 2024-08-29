@@ -1,8 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 
-from http import HTTPMethod
-
 from lwca.handlers.projects_handler import handle_create_project, handle_get_projects, handle_delete_project, handle_get_project, handle_update_project
 
 blueprint = Blueprint('projects', __name__)
@@ -10,7 +8,7 @@ blueprint = Blueprint('projects', __name__)
 @blueprint.route('/api/v1/projects', methods=['POST'])
 @jwt_required()
 def create_project():
-    if request.method == HTTPMethod.POST:
+    if request.method == 'POST':
         payload = request.json
         message, error_code = handle_create_project(payload)
         return jsonify(message), error_code

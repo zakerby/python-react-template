@@ -2,6 +2,7 @@
 
 INCORRECT_PASSWORD = 'Incorrect password'
 USER_NOT_FOUND = 'User not found'
+USER_DELETED = 'User deleted'
 USERNAME_OR_PASSWORD_MISSING = 'Username or password missing'
 NO_PAYLOAD_PROVIDED = 'No payload provided'
 PASSWORDS_DO_NOT_MATCH = 'Passwords do not match'

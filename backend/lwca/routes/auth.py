@@ -6,7 +6,6 @@ from lwca.handlers.auth_handler import handle_login_user, handle_register_user, 
 blueprint = Blueprint('auth', __name__)
 
 @blueprint.route('/api/v1/auth/login', methods=['POST'])
-@swag_from('login.yml')
 def login():
     """
         Description:
@@ -22,7 +21,6 @@ def login():
 
 
 @blueprint.route('/api/v1/auth/register', methods=['POST'])
-@swag_from('register.yml')
 def register():
     if request.method == 'POST':
         payload = request.json
