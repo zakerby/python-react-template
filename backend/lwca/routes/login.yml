@@ -1,0 +1,87 @@
+tags:
+  - auth
+
+parameters:
+  - in: body
+    name: body
+    description: User credentials
+    required: true
+    schema:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "user"
+        password:
+          type: string
+          example: "password"
+
+definitions:
+  User:
+    type: object
+    properties:
+      user_id:
+        type: string
+      user_name:
+        type: string
+
+responses:
+  200:
+    description: Successful login
+    content:
+    application/json:
+      schema:
+        LoginResponse:
+          type: object
+          properties:
+            access_token:
+              type: string
+            user:
+              type: object
+              properties:
+                id:
+                  type: integer
+                username:
+                  type: string
+                email:
+                  type: string
+  400:
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Username or password missing"
+  401:
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Incorrect password"
+  404:
+    description: Not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "User not found"
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Internal server error"
