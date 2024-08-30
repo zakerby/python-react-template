@@ -1,1 +1,22 @@
+name: Run backend tests on Docker compose
 
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+      - uses: actions/checkout@v4
+
+      - name: Run docker-compose
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "./docker-compose.yml"
+
+      - name: Execute tests in the running services
+        run: |
+          docker-compose exec worker poetry run pytest
