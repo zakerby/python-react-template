@@ -5,14 +5,13 @@ description = ""
 authors = ["Nicolas Kerdelhué"]
 
 [tool.poetry.dependencies]
-python = "3.8.8"
+python = "3.8.19"
 flask = "2.2.0"
 uwsgi = "2.0.18"
 flask-sqlalchemy = "3.0.3"
 celery = "4.4.2"
 flask-migrate = "2.5.3"
 sqlalchemy-utils = "0.36.3"
-cryptography = "2.8"
 redis = "3.4.1"
 flask-shell-ipython = "0.4.1"
 psycopg2 = "2.8.4"
