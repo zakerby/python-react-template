@@ -24,7 +24,7 @@ flask-jwt-extended = "^4.6.0"
 flask-socketio = "^5.3.6"
 
 [tool.poetry.dev-dependencies]
-pytest = "5.2"
+pytest = "8.3.2"
 
 [build-system]
 requires = ["poetry>=0.12"]
