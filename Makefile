@@ -8,6 +8,9 @@ clean:
 build:
 	docker compose build
 
+rebuild-backend:
+	docker compose up -d --no-deps --build backend worker
+
 run:
 	docker compose --profile backend --profile frontend up
 
