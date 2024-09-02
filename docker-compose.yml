@@ -19,7 +19,7 @@ services:
     build: 'backend'
     environment:
       DATABASE_URL: 'postgresql://obscure-user:obscure-password@postgres/app'
-      DEV: true
+      DEV: 'true'
       FLASK_DEBUG: '1'
       LOCALSTACK_HOST: 'localstack'
     volumes:
@@ -33,7 +33,7 @@ services:
     build: 'backend'
     environment:
       DATABASE_URL: 'postgresql://obscure-user:obscure-password@postgres/app'
-      DEV: true
+      DEV: 'true'
       FLASK_DEBUG: '1'
       LOCALSTACK_HOST: 'localstack'
     command: '/entrypoints/worker.sh'
