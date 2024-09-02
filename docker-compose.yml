@@ -1,6 +1,8 @@
 services:
 
   frontend:
+    profiles:
+      - frontend
     labels:
       shipyard.route: '/'
     build: 'frontend'
@@ -17,6 +19,8 @@ services:
 
   backend:
     build: 'backend'
+    profiles:
+      - backend
     environment:
       DATABASE_URL: 'postgresql://obscure-user:obscure-password@postgres/app'
       DEV: 'true'
@@ -30,6 +34,8 @@ services:
 
   worker:
     build: 'backend'
+    profiles:
+      - backend
     environment:
       DATABASE_URL: 'postgresql://obscure-user:obscure-password@postgres/app'
       DEV: 'true'
@@ -42,6 +48,8 @@ services:
 
   postgres:
     image: 'postgres:9.6-alpine'
+    profiles:
+      - backend
     environment:
       POSTGRES_USER: 'obscure-user'
       POSTGRES_PASSWORD: 'obscure-password'
@@ -54,6 +62,8 @@ services:
 
   redis:
     image: 'redis:5.0-alpine'
+    profiles:
+      - backend
     ports:
       - '6379'
 

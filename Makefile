@@ -9,7 +9,7 @@ build:
 	docker compose build
 
 run:
-	docker compose up
+	docker compose --profile backend --profile frontend up
 
 frontend-shell:
 	docker compose run frontend \
