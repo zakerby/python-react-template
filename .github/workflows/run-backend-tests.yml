@@ -1,6 +1,12 @@
 name: Run backend tests on Docker compose
 
-on: [push]
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -9,11 +15,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run docker-compose
-        uses: hoverkraft-tech/compose-action@v2.0.1
-        with:
-          compose-file: "./docker-compose.yml"
+      - name: Set up Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
 
-      - name: Execute tests in the running services
+      - name: Run docker-compose
+        run: |
+          docker-compose up -d
+
+      - name: Execute Makefile target
         run: |
           docker-compose exec worker poetry run pytest
+
+      - name: Tear down Docker Compose
+        if: always()
+        run: |
+          docker-compose down
