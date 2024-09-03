@@ -7,26 +7,6 @@ import DropDownIcon from '../Icons/DropDownIcon';
 import TableIcon from '../Icons/TableIcon';
 import { Project } from '../../data/types/project';
 
-
-const subSections = [
-    {
-        label: 'Ingest repository',
-        path: 'ingest-repository'
-    },
-    {
-        label: 'Ingest documentation',
-        path: 'ingest-documentation'
-    },
-    {
-        label: 'Projects files',
-        path: 'project-files'
-    },
-    {
-        label: 'Chat',
-        path: 'chat'
-    }
-]
-
 interface ProjectSidebarLinkGroupProps {
     pathname: string;
     sidebarExpanded: boolean;
@@ -66,28 +46,11 @@ const ProjectSidebarLinkGroup: React.FC<ProjectSidebarLinkGroupProps> = ({
                             {project.name}
                             <DropDownIcon open={open} />
                         </NavLink>
-                        {/* <!-- Dropdown Menu Start --> */}
                         <div
                             className={`translate transform overflow-hidden ${!open && 'hidden'
                                 }`}
                         >
-                            <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                                {subSections.map((subLink, index) => (
-                                    <li key={`subSection-${index}`}>
-                                        <NavLink
-                                            to={`view-project/${project.id}/${subLink.path}`}
-                                            className={({ isActive }) =>
-                                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
-                                                (isActive && '!text-white')
-                                            }
-                                        >
-                                            {subLink.label}
-                                        </NavLink>
-                                    </li>
-                                ))}
-                            </ul>
                         </div>
-                        {/* <!-- Dropdown Menu End --> */}
                     </React.Fragment>
                 );
             }}

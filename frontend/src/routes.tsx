@@ -14,7 +14,6 @@ import Buttons from './pages/UiElements/Buttons';
 
 import CreateProject from './pages/CreateProject/CreateProject';
 import ViewProject from './pages/ViewProject/ViewProject';
-import IngestRepositoryView from './pages/ViewProject/IngestRepositoryView/IngestRepositoryView';
 
 const routes = [
     {
@@ -33,12 +32,6 @@ const routes = [
       path: '/view-project/:id',
       title: 'View Project | LWCA',
       component: <><PageTitle title="View Project | LWCA" /><ViewProject /></>,
-      isProtected: true,
-    },
-    {
-      path: '/view-project/:id/ingest-repository',
-      title: 'Ingest Repository | LWCA',
-      component: <><PageTitle title="Ingest Repository | LWCA" /><IngestRepositoryView /></>,
       isProtected: true,
     },
     {

@@ -1,33 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import SidebarLinkGroup from './SidebarLinkGroup';
 import SidebarElement from './SidebarElement';
 
 import DashboardIcon from '../Icons/DashboardIcon';
 import TableIcon from '../Icons/TableIcon';
-import CalendarIcon from '../Icons/CalendarIcon';
-import FormIcon from '../Icons/FormIcon';
-import DropDownIcon from '../Icons/DropDownIcon';
 
 import { useProjectActions } from '../../data/actions/project.action';
 import ProjectSidebarLinkGroup from './ProjectSidebarLinkGroup';
 
-
-const subSections = [
-    {
-        label: 'Ingest repository',
-        path: '/ingest-repository'
-    },
-    {
-        label: 'Ingest documentation',
-        path: '/ingest-documentation'
-    },
-    {
-        label: 'Chat',
-        path: '/chat'
-    }
-]
 
 interface SidebarBodyProps {
     sidebarExpanded: boolean;
