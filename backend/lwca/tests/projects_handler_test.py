@@ -42,7 +42,7 @@ def test_handle_create_project(mock_project, mock_get_jwt_identity, app_context)
     assert response['message'] == NO_PAYLOAD_PROVIDED
 
     # Test missing name
-    response, status = handle_create_project({'name': 'test'})
+    response, status = handle_create_project({'toto': 'test'})
     assert status == HTTPStatus.BAD_REQUEST
     assert response['message'] == PROJECT_NAME_MISSING
 
