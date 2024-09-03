@@ -1,0 +1,28 @@
+name: Clean Dependencies Cache
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Runs every Sunday at midnight
+
+jobs:
+  clean-cache:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: List all caches
+        id: list-caches
+        run: |
+          gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/caches --paginate > caches.json
+          jq '.actions_caches | map(select(.ref == "refs/heads/main"))' caches.json > main_caches.json
+          jq '.actions_caches | map(select(.ref != "refs/heads/main"))' caches.json > other_caches.json
+
+      - name: Remove old Node.js caches
+        run: |
+          jq -r '.[] | select(.key | startswith("node-")) | .id' main_caches.json | tail -n +2 | xargs -I {} gh api -X DELETE /repos/${{ github.repository }}/actions/caches/{} || true
+
+      - name: Remove old Poetry caches
+        run: |
+          jq -r '.[] | select(.key | startswith("poetry-")) | .id' main_caches.json | tail -n +2 | xargs -I {} gh api -X DELETE /repos/${{ github.repository }}/actions/caches/{} || true
