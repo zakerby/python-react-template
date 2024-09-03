@@ -1482,12 +1482,12 @@ files = [
 
 [[package]]
 name = "uwsgi"
-version = "2.0.22"
+version = "2.0.26"
 description = "The uWSGI server"
 optional = false
 python-versions = "*"
 files = [
-    {file = "uwsgi-2.0.22.tar.gz", hash = "sha256:4cc4727258671ac5fa17ab422155e9aaef8a2008ebb86e4404b66deaae965db2"},
+    {file = "uwsgi-2.0.26.tar.gz", hash = "sha256:86e6bfcd4dc20529665f5b7777193cdc48622fb2c59f0a7f1e3dc32b3882e7f9"},
 ]
 
 [[package]]
@@ -1565,4 +1565,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.9.19"
-content-hash = "2316027b7af08cec42d8367531c2c8649c8cf3d8c50ba30a1c095bdc45853e7e"
+content-hash = "179a4676b2b97657b35afb5f95e467fed28c1a085da6a575127c21c650d727af"
