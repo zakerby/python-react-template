@@ -7,7 +7,6 @@ import DashboardIcon from '../Icons/DashboardIcon';
 import TableIcon from '../Icons/TableIcon';
 
 import { useProjectActions } from '../../data/actions/project.action';
-import ProjectSidebarLinkGroup from './ProjectSidebarLinkGroup';
 
 
 interface SidebarBodyProps {
