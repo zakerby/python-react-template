@@ -3,7 +3,7 @@ import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Calendar from './pages/Calendar';
 import Chart from './pages/Chart';
-import ECommerce from './pages/Dashboard/ECommerce';
+import Dashboard from './pages/Dashboard/Dashboard';
 import FormElements from './pages/Form/FormElements';
 import FormLayout from './pages/Form/FormLayout';
 import Profile from './pages/Profile';
@@ -14,13 +14,12 @@ import Buttons from './pages/UiElements/Buttons';
 
 import CreateProject from './pages/CreateProject/CreateProject';
 import ViewProject from './pages/ViewProject/ViewProject';
-import IngestRepositoryView from './pages/ViewProject/IngestRepositoryView/IngestRepositoryView';
 
 const routes = [
     {
       path: '/',
       title: 'Dashboard | LWCA',
-      component: <><PageTitle title="Dashboard | LWCA" /><ECommerce /></>,
+      component: <><PageTitle title="Dashboard | LWCA" /><Dashboard /></>,
       isProtected: true
     },
     {
@@ -33,12 +32,6 @@ const routes = [
       path: '/view-project/:id',
       title: 'View Project | LWCA',
       component: <><PageTitle title="View Project | LWCA" /><ViewProject /></>,
-      isProtected: true,
-    },
-    {
-      path: '/view-project/:id/ingest-repository',
-      title: 'Ingest Repository | LWCA',
-      component: <><PageTitle title="Ingest Repository | LWCA" /><IngestRepositoryView /></>,
       isProtected: true,
     },
     {
@@ -66,21 +59,9 @@ const routes = [
       isProtected: true
     },
     {
-      path: '/tables',
-      title: 'Tables | LWCA',
-      component: <><PageTitle title="Tables | LWCA" /><Tables /></>,
-      isProtected: true
-    },
-    {
       path: '/settings',
       title: 'Settings | LWCA',
       component: <><PageTitle title="Settings | LWCA" /><Settings /></>,
-      isProtected: true
-    },
-    {
-      path: '/chart',
-      title: 'Basic Chart | LWCA',
-      component: <><PageTitle title="Basic Chart | LWCA" /><Chart /></>,
       isProtected: true
     },
     {

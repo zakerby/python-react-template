@@ -18,10 +18,9 @@ export const useProjectsRequest = () => {
         return project;
     }
     
-    const createProjectRequest = async (projectName: string, repositoryUrl?: string) => {
+    const createProjectRequest = async (projectName: string) => {
         const response = await axiosBackend.post(`/${PROJECTS_DOMAIN}`, {
             name: projectName,
-            repository_url: repositoryUrl
         });
         const {project: newProject} = response.data;
         return newProject;

@@ -12,7 +12,7 @@ const ViewProject = () => {
   const [analysisStatus, setAnalysisStatus] = useState<string>("Analysis status will be shown here");
 
   const handleAnalysis = () => {
-    if(!project) return;
+    if (!project) return;
     setAnalysisStatus("Analysis in progress...");
   }
 
@@ -30,20 +30,14 @@ const ViewProject = () => {
   return project && (
     <>
       <Breadcrumb pageName={pageName} />
-      <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
-        <div className="flex flex-col gap-12">
-          <RepositoryAnalysisForm 
-            repoUrl={project.repository_url} 
-          />
-        </div>
-
-        <div className="flex flex-col gap-9">
-          <RepositoryAnalysisStatus handleAnalysis={handleAnalysis} analysisStatus={analysisStatus} />
-        </div>
-      </div>
-
       <div className="flex flex-col gap-9 pt-4">
-        <ChatBox project={project} />
+        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+          <div className="flex-1 p:2 sm:p-6 justify-between flex flex-col">
+            <p className="text-center text-gray-400">
+              Insert content here
+              </p>
+          </div>
+        </div>
       </div>
     </>
   );

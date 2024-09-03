@@ -9,6 +9,11 @@ from lwca.handlers.projects_handler import (
     handle_delete_project,
     handle_update_project
 )
+from lwca.handlers.constants import (
+    PROJECT_NAME_MISSING,
+    NO_PAYLOAD_PROVIDED,
+    PROJECT_DELETED
+)
 from lwca.models.project import Project
 
 @pytest.fixture
@@ -34,16 +39,16 @@ def test_handle_create_project(mock_project, mock_get_jwt_identity, app_context)
     # Test no payload
     response, status = handle_create_project(None)
     assert status == HTTPStatus.BAD_REQUEST
-    assert response['message'] == 'No payload provided'
+    assert response['message'] == NO_PAYLOAD_PROVIDED
 
-    # Test missing name or repository URL
-    response, status = handle_create_project({'name': 'test'})
+    # Test missing name
+    response, status = handle_create_project({'toto': 'test'})
     assert status == HTTPStatus.BAD_REQUEST
-    assert response['message'] == 'Name or repository_url missing'
+    assert response['message'] == PROJECT_NAME_MISSING
 
     # Test error saving project
     mock_project.side_effect = Exception('Database error')
-    response, status = handle_create_project({'name': 'test', 'repository_url': 'http://test.com'})
+    response, status = handle_create_project({'name': 'test'})
     assert status == HTTPStatus.INTERNAL_SERVER_ERROR
     assert 'Database error' in response['message']
 
@@ -52,7 +57,7 @@ def test_handle_create_project(mock_project, mock_get_jwt_identity, app_context)
     mock_project_instance = MagicMock()
     mock_project.return_value = mock_project_instance
     mock_project_instance.to_dict.return_value = {'id': 1, 'name': 'test'}
-    response, status = handle_create_project({'name': 'test', 'repository_url': 'http://test.com'})
+    response, status = handle_create_project({'name': 'test'})
     assert status == HTTPStatus.CREATED
     assert response['message'] == 'Project created'
     assert response['project']['name'] == 'test'
@@ -67,16 +72,10 @@ def test_handle_get_projects(mock_project, mock_get_jwt_identity, app_context):
     first_mock_project = MagicMock()
     first_mock_project.id = 1
     first_mock_project.name = 'test1'
-    first_mock_project.repository_url = 'http://test1.com'
-    first_mock_project.analysis_status = 'pending'
-    first_mock_project.analysis_results = {}
     
     second_mock_project = MagicMock()
     second_mock_project.id = 2
     second_mock_project.name = 'test2'
-    second_mock_project.repository_url = 'http://test2.com'
-    second_mock_project.analysis_status = 'completed'
-    second_mock_project.analysis_results = {}
     
     mock_project.query.filter_by.return_value.all.return_value = [
         first_mock_project,
@@ -103,9 +102,6 @@ def test_handle_get_project(mock_project, mock_get_jwt_identity, app_context):
     mock_project_instance = MagicMock()
     mock_project_instance.id = 1
     mock_project_instance.name = 'test'
-    mock_project_instance.repository_url = 'http://test.com'
-    mock_project_instance.analysis_status = 'pending'
-    mock_project_instance.analysis_results = {}
     mock_project.query.filter_by.return_value.first.return_value = mock_project_instance
     
     response, status = handle_get_project(1)
@@ -135,7 +131,7 @@ def test_handle_delete_project(mock_project, mock_get_jwt_identity, app_context)
     mock_project_instance.delete.side_effect = None
     response, status = handle_delete_project(1)
     assert status == HTTPStatus.OK
-    assert response['message'] == 'Project deleted'
+    assert response['message'] == PROJECT_DELETED
 
 @patch('lwca.handlers.projects_handler.get_jwt_identity')
 @patch('lwca.handlers.projects_handler.Project')
@@ -153,7 +149,7 @@ def test_handle_update_project(mock_project, mock_get_jwt_identity, app_context)
     mock_project.query.filter_by.return_value.first.return_value = mock_project_instance
     response, status = handle_update_project(1, None)
     assert status == HTTPStatus.BAD_REQUEST
-    assert response['message'] == 'No payload provided'
+    assert response['message'] == NO_PAYLOAD_PROVIDED
 
     # Test error updating project
     mock_project_instance.save.side_effect = Exception('Database error')

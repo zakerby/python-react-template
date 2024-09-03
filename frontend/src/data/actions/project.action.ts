@@ -38,10 +38,10 @@ export const useProjectActions = () => {
         return project;
     }
 
-    const createProject = async (projectName: string, repoUrl: string) => {
-        const newProject = await createProjectRequest(projectName, repoUrl);
+    const createProject = async (projectName: string) => {
+        const newProject = await createProjectRequest(projectName);
         setProjects([...projects, newProject]);
-        navigate(`/view-project/${newProject.id}/ingest-repository`);
+        navigate(`/view-project/${newProject.id}`);
     }
 
     const deleteProject = (id: string) => {
