@@ -8,7 +8,7 @@ from lwca.logging import log_info, log_error
 from lwca.handlers.constants import (
     PROJECT_CREATED,
     ERROR_SAVING_PROJECT,
-    NAME_OR_REPOSITORY_URL_MISSING,
+    PROJECT_NAME_MISSING,
     PROJECT_NOT_FOUND,
     PROJECT_DELETED,
     NO_PAYLOAD_PROVIDED
@@ -34,7 +34,7 @@ def handle_create_project(data):
                 log_error(f'Error saving project: {str(e)}')
                 return {'message': ERROR_SAVING_PROJECT.format(str(e))}, HTTPStatus.INTERNAL_SERVER_ERROR
         else:
-            return {'message': NAME_OR_REPOSITORY_URL_MISSING}, HTTPStatus.BAD_REQUEST
+            return {'message': PROJECT_NAME_MISSING}, HTTPStatus.BAD_REQUEST
     else:
         return {'message': NO_PAYLOAD_PROVIDED}, HTTPStatus.BAD_REQUEST
 
