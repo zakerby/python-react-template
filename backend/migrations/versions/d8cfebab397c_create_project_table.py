@@ -25,9 +25,6 @@ def upgrade() -> None:
         sa.Column("created", sa.DateTime(), nullable=True),
         sa.Column("updated", sa.DateTime(), nullable=True),
         sa.Column("name", sa.String(length=64), nullable=False),
-        sa.Column("repository_url", sa.String(length=255), nullable=True),
-        sa.Column("analysis_status", sa.String(length=60), nullable=True),
-        sa.Column("analysis_results", sa.JSON, nullable=True),
     )
 
 def downgrade() -> None:

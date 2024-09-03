@@ -23,11 +23,10 @@ def handle_create_project(data):
     """
     if data is not None:
         name = data.get('name')
-        repository_url = data.get('repository_url')
-        if name is not None and repository_url is not None:
+        if name is not None:
             try:
                 current_user_id = get_jwt_identity()
-                project = Project(name=name, repository_url=repository_url, analysis_status='pending', user_id=current_user_id)
+                project = Project(name=name, user_id=current_user_id)
                 project.save()
                 log_info(f'Project {project.name} created by user {current_user_id}')
                 return {'message': PROJECT_CREATED, 'project': project.to_dict()}, HTTPStatus.CREATED
