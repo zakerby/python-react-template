@@ -3,7 +3,7 @@ import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Calendar from './pages/Calendar';
 import Chart from './pages/Chart';
-import ECommerce from './pages/Dashboard/ECommerce';
+import Dashboard from './pages/Dashboard/Dashboard';
 import FormElements from './pages/Form/FormElements';
 import FormLayout from './pages/Form/FormLayout';
 import Profile from './pages/Profile';
@@ -19,7 +19,7 @@ const routes = [
     {
       path: '/',
       title: 'Dashboard | LWCA',
-      component: <><PageTitle title="Dashboard | LWCA" /><ECommerce /></>,
+      component: <><PageTitle title="Dashboard | LWCA" /><Dashboard /></>,
       isProtected: true
     },
     {
@@ -59,21 +59,9 @@ const routes = [
       isProtected: true
     },
     {
-      path: '/tables',
-      title: 'Tables | LWCA',
-      component: <><PageTitle title="Tables | LWCA" /><Tables /></>,
-      isProtected: true
-    },
-    {
       path: '/settings',
       title: 'Settings | LWCA',
       component: <><PageTitle title="Settings | LWCA" /><Settings /></>,
-      isProtected: true
-    },
-    {
-      path: '/chart',
-      title: 'Basic Chart | LWCA',
-      component: <><PageTitle title="Basic Chart | LWCA" /><Chart /></>,
       isProtected: true
     },
     {
