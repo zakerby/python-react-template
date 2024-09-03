@@ -6,12 +6,11 @@ import CustomInput from '../../components/Forms/CustomInput';
 import { useProjectActions } from '../../data/actions/project.action';
 
 const CreateProject = () => {
-    const [repoUrl, setRepoUrl] = useState<string>('');
     const [projectName, setProjectName] = useState<string>('');
     const { createProject } = useProjectActions();
 
     const handleCreateProjectBtnClick = () => {
-        createProject(projectName, repoUrl);
+        createProject(projectName);
     };
 
     return (
@@ -28,13 +27,6 @@ const CreateProject = () => {
                                 value={projectName}
                                 onChange={setProjectName}
                                 placeholder="Input a project name"
-                            />
-                            <CustomInput
-                                label="Repository URL"
-                                type="text"
-                                value={repoUrl}
-                                onChange={setRepoUrl}
-                                placeholder="Input a repository URL"
                             />
                             <button onClick={handleCreateProjectBtnClick} className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                 Create project

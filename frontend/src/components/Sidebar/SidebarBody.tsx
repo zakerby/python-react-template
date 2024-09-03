@@ -48,12 +48,10 @@ const SidebarBody = ({ sidebarExpanded, setSidebarExpanded }: SidebarBodyProps) 
                         />
                         {
                             projects.map((project, index) => (
-                                <ProjectSidebarLinkGroup
-                                    key={`project-${index}`}
+                                <SidebarElement
+                                    label={project.name}
+                                    path={`view-project/${project.id}`}
                                     pathname={pathname}
-                                    sidebarExpanded={sidebarExpanded}
-                                    setSidebarExpanded={setSidebarExpanded}
-                                    project={project}
                                 />
                             ))
                         }
