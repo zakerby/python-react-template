@@ -6,7 +6,7 @@ authors = ["Nicolas Kerdelhué"]
 
 [tool.poetry.dependencies]
 python = "3.9.19"
-flask = "2.2.5"
+flask = "3.0.3"
 uwsgi = "2.0.26"
 flask-sqlalchemy = "3.1.1"
 celery = "5.4.0"
