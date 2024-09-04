@@ -2,6 +2,7 @@ from flask_jwt_extended import get_jwt_identity
 from http import HTTPStatus
 
 from lwca.models.project import Project
+from lwca.schemas.project import ProjectSchema
 
 from lwca.logging import log_info, log_error
 
@@ -13,6 +14,9 @@ from lwca.handlers.constants import (
     PROJECT_DELETED,
     NO_PAYLOAD_PROVIDED
 )
+
+project_schema = ProjectSchema()
+projects_schema = ProjectSchema(many=True)
 
 def handle_create_project(data):
     """
@@ -46,13 +50,7 @@ def handle_get_projects():
     """
     current_user_id = get_jwt_identity()
     projects = Project.query.filter_by(user_id=current_user_id).all()
-    projects_list = []
-    for project in projects:
-        projects_list.append({
-            'id': project.id,
-            'name': project.name,
-        })
-    return projects_list, HTTPStatus.OK
+    return projects_schema.dump(projects), HTTPStatus.OK
 
 def handle_get_project(project_id):
     """
@@ -64,10 +62,7 @@ def handle_get_project(project_id):
     
     project = Project.query.filter_by(id=project_id, user_id=current_user_id).first()
     if project is not None:
-        return {
-            'id': project.id,
-            'name': project.name,
-        }, HTTPStatus.OK
+        return project_schema.dump(project) , HTTPStatus.OK
     else:
         return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
 
