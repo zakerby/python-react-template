@@ -21,8 +21,10 @@ jobs:
 
       - name: Remove old Node.js caches
         run: |
+          jq -r '.[] | select(.key | startswith("node-")) | .id' other_caches.json | xargs -I {} gh api -X DELETE /repos/${{ github.repository }}/actions/caches/{} || true
           jq -r '.[] | select(.key | startswith("node-")) | .id' main_caches.json | tail -n +2 | xargs -I {} gh api -X DELETE /repos/${{ github.repository }}/actions/caches/{} || true
 
       - name: Remove old Poetry caches
         run: |
+          jq -r '.[] | select(.key | startswith("poetry-")) | .id' other_caches.json | xargs -I {} gh api -X DELETE /repos/${{ github.repository }}/actions/caches/{} || true
           jq -r '.[] | select(.key | startswith("poetry-")) | .id' main_caches.json | tail -n +2 | xargs -I {} gh api -X DELETE /repos/${{ github.repository }}/actions/caches/{} || true
