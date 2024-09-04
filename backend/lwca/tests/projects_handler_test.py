@@ -12,7 +12,9 @@ from lwca.handlers.projects_handler import (
 from lwca.handlers.constants import (
     PROJECT_NAME_MISSING,
     NO_PAYLOAD_PROVIDED,
-    PROJECT_DELETED
+    PROJECT_DELETED,
+    PROJECT_NOT_FOUND,
+    PROJECT_UPDATED
 )
 from lwca.models.project import Project
 
@@ -96,7 +98,7 @@ def test_handle_get_project(mock_project, mock_get_jwt_identity, app_context):
     mock_project.query.filter_by.return_value.first.return_value = None
     response, status = handle_get_project(1)
     assert status == HTTPStatus.NOT_FOUND
-    assert response['message'] == 'Project not found'
+    assert response['message'] == PROJECT_NOT_FOUND
 
     # Test successful project retrieval
     mock_project_instance = MagicMock()
@@ -117,7 +119,7 @@ def test_handle_delete_project(mock_project, mock_get_jwt_identity, app_context)
     mock_project.query.filter_by.return_value.first.return_value = None
     response, status = handle_delete_project(1)
     assert status == HTTPStatus.NOT_FOUND
-    assert response['message'] == 'Project not found'
+    assert response['message'] == PROJECT_NOT_FOUND
 
     # Test error deleting project
     mock_project_instance = MagicMock()
@@ -142,7 +144,7 @@ def test_handle_update_project(mock_project, mock_get_jwt_identity, app_context)
     mock_project.query.filter_by.return_value.first.return_value = None
     response, status = handle_update_project(1, {'name': 'updated'})
     assert status == HTTPStatus.NOT_FOUND
-    assert response['message'] == 'Project not found'
+    assert response['message'] == PROJECT_NOT_FOUND
 
     # Test no payload
     mock_project_instance = MagicMock()
@@ -162,5 +164,5 @@ def test_handle_update_project(mock_project, mock_get_jwt_identity, app_context)
     mock_project_instance.to_dict.return_value = {'id': 1, 'name': 'updated'}
     response, status = handle_update_project(1, {'name': 'updated'})
     assert status == HTTPStatus.OK
-    assert response['message'] == 'Project updated'
+    assert response['message'] == PROJECT_UPDATED
     assert response['project']['name'] == 'updated'

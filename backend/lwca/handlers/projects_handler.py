@@ -12,6 +12,7 @@ from lwca.handlers.constants import (
     PROJECT_NAME_MISSING,
     PROJECT_NOT_FOUND,
     PROJECT_DELETED,
+    PROJECT_UPDATED,
     NO_PAYLOAD_PROVIDED
 )
 
@@ -96,7 +97,7 @@ def handle_update_project(project_id, data):
             project.name = data.get('name', project.name)
             try:
                 project.save()
-                return {'message': 'Project updated', 'project': project.to_dict()}, HTTPStatus.OK
+                return {'message': PROJECT_UPDATED, 'project':  project_schema.dump(project)}, HTTPStatus.OK
             except Exception as e:
                 return {'message': str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR
         return {'message': NO_PAYLOAD_PROVIDED}, HTTPStatus.BAD_REQUEST
