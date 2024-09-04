@@ -5,7 +5,7 @@ description = ""
 authors = ["Nicolas Kerdelhué"]
 
 [tool.poetry.dependencies]
-python = "3.9.19"
+python = "3.12.0"
 flask = "3.0.3"
 uwsgi = "2.0.26"
 flask-sqlalchemy = "3.1.1"
