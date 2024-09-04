@@ -12,7 +12,8 @@ from lwca.handlers.constants import (
     USER_NOT_FOUND,
     INCORRECT_PASSWORD,
     USER_ALREADY_EXISTS,
-    USERNAME_OR_PASSWORD_MISSING
+    USERNAME_OR_PASSWORD_MISSING,
+    ERROR_CREATING_USER
 )
 
 @pytest.fixture
@@ -95,7 +96,7 @@ def test_handle_register_user(mock_create_access_token, mock_user, app_context):
     mock_user.side_effect = Exception('Database error')
     response, status = handle_register_user({'username': 'test', 'email': 'test@test.com', 'password': 'test', 'confirm_password': 'test'})
     assert status == HTTPStatus.INTERNAL_SERVER_ERROR
-    assert 'Error creating user' in response['message']
+    assert 'Database error' in response['message']
 
     # Test successful registration
     mock_user.side_effect = None

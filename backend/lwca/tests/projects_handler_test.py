@@ -134,8 +134,8 @@ def test_handle_delete_project(mock_project, mock_get_jwt_identity, app_context)
     mock_project_instance.delete.side_effect = Exception('Database error')
     mock_project.query.filter_by.return_value.first.return_value = mock_project_instance
     response, status = handle_delete_project(1)
-    assert status == HTTPStatus.INTERNAL_SERVER_ERROR
-    assert 'Database error' in response['message']
+    assert status == HTTPStatus.INTERNAL_SERVER_ERROR, 'HTTPStatus should be 500 (Internal Server Error)'
+    assert 'Database error' in response['message'], 'Error message should contain "Database error"'
 
     # Test successful project deletion
     mock_project_instance.delete.side_effect = None
