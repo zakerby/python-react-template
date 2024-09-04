@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9.19'  # Specify the Python version you are using
+          python-version: '3.12.0'  # Specify the Python version you are using
 
       - name: Cache Poetry dependencies
         uses: actions/cache@v4

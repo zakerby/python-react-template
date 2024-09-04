@@ -15,7 +15,7 @@ class User(Base):
     email = db.Column(db.String(80), index=True, unique=True, nullable=False)
     password = db.Column(db.String(500), nullable=False)
     
-    projects = db.relationship('Project', backref='user', lazy=True)
+    projects = db.relationship('Project', backref='user', lazy=True, cascade="all, delete-orphan")
 
     def __init__(self, **kwargs):
         """

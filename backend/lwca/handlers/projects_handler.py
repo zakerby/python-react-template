@@ -2,6 +2,7 @@ from flask_jwt_extended import get_jwt_identity
 from http import HTTPStatus
 
 from lwca.models.project import Project
+from lwca.schemas.project import ProjectSchema
 
 from lwca.logging import log_info, log_error
 
@@ -11,8 +12,13 @@ from lwca.handlers.constants import (
     PROJECT_NAME_MISSING,
     PROJECT_NOT_FOUND,
     PROJECT_DELETED,
+    PROJECT_UPDATED,
     NO_PAYLOAD_PROVIDED
 )
+
+# Initialize the schemas
+project_schema = ProjectSchema()
+projects_schema = ProjectSchema(many=True)
 
 def handle_create_project(data):
     """
@@ -33,10 +39,8 @@ def handle_create_project(data):
             except Exception as e:
                 log_error(f'Error saving project: {str(e)}')
                 return {'message': ERROR_SAVING_PROJECT.format(str(e))}, HTTPStatus.INTERNAL_SERVER_ERROR
-        else:
-            return {'message': PROJECT_NAME_MISSING}, HTTPStatus.BAD_REQUEST
-    else:
-        return {'message': NO_PAYLOAD_PROVIDED}, HTTPStatus.BAD_REQUEST
+        return {'message': PROJECT_NAME_MISSING}, HTTPStatus.BAD_REQUEST
+    return {'message': NO_PAYLOAD_PROVIDED}, HTTPStatus.BAD_REQUEST
 
 def handle_get_projects():
     """
@@ -46,13 +50,7 @@ def handle_get_projects():
     """
     current_user_id = get_jwt_identity()
     projects = Project.query.filter_by(user_id=current_user_id).all()
-    projects_list = []
-    for project in projects:
-        projects_list.append({
-            'id': project.id,
-            'name': project.name,
-        })
-    return projects_list, HTTPStatus.OK
+    return projects_schema.dump(projects), HTTPStatus.OK
 
 def handle_get_project(project_id):
     """
@@ -64,12 +62,8 @@ def handle_get_project(project_id):
     
     project = Project.query.filter_by(id=project_id, user_id=current_user_id).first()
     if project is not None:
-        return {
-            'id': project.id,
-            'name': project.name,
-        }, HTTPStatus.OK
-    else:
-        return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
+        return project_schema.dump(project) , HTTPStatus.OK
+    return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
 
 def handle_delete_project(project_id):
     """
@@ -87,8 +81,8 @@ def handle_delete_project(project_id):
         except Exception as e:
             log_error(f'Error deleting project: {str(e)}')
             return {'message': str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR
-    else:
-        return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
+    
+    return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
     
 def handle_update_project(project_id, data):
     """
@@ -103,9 +97,8 @@ def handle_update_project(project_id, data):
             project.name = data.get('name', project.name)
             try:
                 project.save()
-                return {'message': 'Project updated', 'project': project.to_dict()}, HTTPStatus.OK
+                return {'message': PROJECT_UPDATED, 'project':  project_schema.dump(project)}, HTTPStatus.OK
             except Exception as e:
                 return {'message': str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR
         return {'message': NO_PAYLOAD_PROVIDED}, HTTPStatus.BAD_REQUEST
-    else:
-        return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
+    return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND

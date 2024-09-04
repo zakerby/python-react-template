@@ -6,6 +6,16 @@ from http import HTTPStatus
 from lwca.handlers.auth_handler import handle_login_user, handle_register_user, handle_jwt_refresh
 from lwca.models.user import User
 
+from lwca.handlers.constants import (
+    PASSWORDS_DO_NOT_MATCH,
+    NO_PAYLOAD_PROVIDED,
+    USER_NOT_FOUND,
+    INCORRECT_PASSWORD,
+    USER_ALREADY_EXISTS,
+    USERNAME_OR_PASSWORD_MISSING,
+    ERROR_CREATING_USER
+)
+
 @pytest.fixture
 def app():
     app = Flask(__name__)
@@ -27,18 +37,18 @@ def test_handle_login_user(mock_create_access_token, mock_user, app_context):
     # Test no payload
     response, status = handle_login_user(None)
     assert status == HTTPStatus.BAD_REQUEST
-    assert response['message'] == 'No payload provided'
+    assert response['message'] == NO_PAYLOAD_PROVIDED
 
     # Test missing username or password
     response, status = handle_login_user({'username': 'test'})
     assert status == HTTPStatus.BAD_REQUEST
-    assert response['message'] == 'Username or password missing'
+    assert response['message'] == USERNAME_OR_PASSWORD_MISSING
 
     # Test user not found
     mock_user.query.filter_by.return_value.first.return_value = None
     response, status = handle_login_user({'username': 'test', 'password': 'test'})
     assert status == HTTPStatus.NOT_FOUND
-    assert response['message'] == 'User not found'
+    assert response['message'] == USER_NOT_FOUND
 
     # Test incorrect password
     mock_user_instance = MagicMock()
@@ -46,7 +56,7 @@ def test_handle_login_user(mock_create_access_token, mock_user, app_context):
     mock_user.query.filter_by.return_value.first.return_value = mock_user_instance
     response, status = handle_login_user({'username': 'test', 'password': 'test'})
     assert status == HTTPStatus.UNAUTHORIZED
-    assert response['message'] == 'Incorrect password'
+    assert response['message'] == INCORRECT_PASSWORD
 
     # Test successful login
     mock_user_instance.check_password.return_value = True
@@ -63,30 +73,30 @@ def test_handle_register_user(mock_create_access_token, mock_user, app_context):
     # Test no payload
     response, status = handle_register_user(None)
     assert status == HTTPStatus.BAD_REQUEST
-    assert response['message'] == 'No payload provided'
+    assert response['message'] == NO_PAYLOAD_PROVIDED
 
     # Test passwords do not match
     response, status = handle_register_user({'username': 'test', 'email': 'test@test.com', 'password': 'test', 'confirm_password': 'test1'})
     assert status == HTTPStatus.BAD_REQUEST
-    assert response['message'] == 'Passwords do not match'
+    assert response['message'] == PASSWORDS_DO_NOT_MATCH
 
     # Test missing username or password
     response, status = handle_register_user({'username': 'test', 'email': 'test@test.com', 'password': 'test'})
     assert status == HTTPStatus.BAD_REQUEST
-    assert response['message'] == 'Passwords do not match'
+    assert response['message'] == PASSWORDS_DO_NOT_MATCH
 
     # Test user already exists
     mock_user.query.filter_by.return_value.first.return_value = MagicMock()
     response, status = handle_register_user({'username': 'test', 'email': 'test@test.com', 'password': 'test', 'confirm_password': 'test'})
     assert status == HTTPStatus.CONFLICT
-    assert response['message'] == 'User already exists'
+    assert response['message'] == USER_ALREADY_EXISTS
 
     # Test error creating user
     mock_user.query.filter_by.return_value.first.return_value = None
     mock_user.side_effect = Exception('Database error')
     response, status = handle_register_user({'username': 'test', 'email': 'test@test.com', 'password': 'test', 'confirm_password': 'test'})
     assert status == HTTPStatus.INTERNAL_SERVER_ERROR
-    assert 'Error creating user' in response['message']
+    assert 'Database error' in response['message']
 
     # Test successful registration
     mock_user.side_effect = None
