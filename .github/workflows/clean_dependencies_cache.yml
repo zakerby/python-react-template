@@ -26,7 +26,9 @@ jobs:
         run: |
           gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository }}/actions/caches --paginate > caches.json
           jq '.actions_caches | map(select(.ref == "refs/heads/main"))' caches.json > main_caches.json
+          cat main_caches.json
           jq '.actions_caches | map(select(.ref != "refs/heads/main"))' caches.json > other_caches.json
+          cat other_caches.json
 
       - name: Remove old Node.js caches
         run: |
