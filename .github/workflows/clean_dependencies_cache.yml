@@ -5,6 +5,9 @@ on:
     - cron: '0 0 * * 0'  # Runs every Sunday at midnight
   
   workflow_dispatch:
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
 jobs:
   clean-cache:
