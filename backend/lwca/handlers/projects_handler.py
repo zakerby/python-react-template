@@ -15,6 +15,7 @@ from lwca.handlers.constants import (
     NO_PAYLOAD_PROVIDED
 )
 
+# Initialize the schemas
 project_schema = ProjectSchema()
 projects_schema = ProjectSchema(many=True)
 
