@@ -37,10 +37,8 @@ def handle_create_project(data):
             except Exception as e:
                 log_error(f'Error saving project: {str(e)}')
                 return {'message': ERROR_SAVING_PROJECT.format(str(e))}, HTTPStatus.INTERNAL_SERVER_ERROR
-        else:
-            return {'message': PROJECT_NAME_MISSING}, HTTPStatus.BAD_REQUEST
-    else:
-        return {'message': NO_PAYLOAD_PROVIDED}, HTTPStatus.BAD_REQUEST
+        return {'message': PROJECT_NAME_MISSING}, HTTPStatus.BAD_REQUEST
+    return {'message': NO_PAYLOAD_PROVIDED}, HTTPStatus.BAD_REQUEST
 
 def handle_get_projects():
     """
@@ -63,8 +61,7 @@ def handle_get_project(project_id):
     project = Project.query.filter_by(id=project_id, user_id=current_user_id).first()
     if project is not None:
         return project_schema.dump(project) , HTTPStatus.OK
-    else:
-        return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
+    return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
 
 def handle_delete_project(project_id):
     """
@@ -82,8 +79,8 @@ def handle_delete_project(project_id):
         except Exception as e:
             log_error(f'Error deleting project: {str(e)}')
             return {'message': str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR
-    else:
-        return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
+    
+    return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
     
 def handle_update_project(project_id, data):
     """
@@ -102,5 +99,4 @@ def handle_update_project(project_id, data):
             except Exception as e:
                 return {'message': str(e)}, HTTPStatus.INTERNAL_SERVER_ERROR
         return {'message': NO_PAYLOAD_PROVIDED}, HTTPStatus.BAD_REQUEST
-    else:
-        return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
+    return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
