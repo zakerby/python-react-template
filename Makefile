@@ -1,5 +1,8 @@
 VOLUME=$(shell basename $(PWD))
 
+COMPOSE_PROJECT_NAME=$(VOLUME)
+DOCKER_COMPOSE_BASE_COMMAND=docker compose -p $(COMPOSE_PROJECT_NAME)
+
 default: help
 
 .PHONY: help
@@ -16,37 +19,40 @@ develop: ## Start the development environment
 	make clean build migrations.upgrade run
 
 clean: ## Stop and remove containers, networks, images, and volumes
-	docker compose rm -vf
+	$(DOCKER_COMPOSE_BASE_COMMAND) down
 
 build: ## Build the containers
-	docker compose build
+	$(DOCKER_COMPOSE_BASE_COMMAND) build
 
 run: ## Start the containers
-	docker compose --profile backend --profile frontend up
+	$(DOCKER_COMPOSE_BASE_COMMAND) --profile backend --profile frontend up -d
+	$(DOCKER_COMPOSE_BASE_COMMAND) exec backend \
+	  sh -c 'while ! nc -z backend 8080; do sleep 0.1; done'
+	docker ps
 
 # Backend
 backend-shell: ## Start a shell in the backend container
-	docker compose run worker sh
+	$(DOCKER_COMPOSE_BASE_COMMAND) run worker sh
 
 backend-log: ## Show the backend logs
-	docker compose logs -f backend
+	$(DOCKER_COMPOSE_BASE_COMMAND) logs -f backend
 
 backend-rebuild: ## Rebuild the backend container
-	docker compose up -d --no-deps --build backend worker
+	$(DOCKER_COMPOSE_BASE_COMMAND) up -d --no-deps --build backend worker
 
 # Worker
 worker-restart: ## Restart the worker container
-	docker compose restart worker
+	$(DOCKER_COMPOSE_BASE_COMMAND) restart worker
 
 worker-python-tests: ## Run pytest in the worker container
-	docker compose run worker poetry run pytest
+	$(DOCKER_COMPOSE_BASE_COMMAND) run worker poetry run pytest
 
 worker-python-shell: ## Start a shell in the worker container
-	docker compose run worker poetry run flask shell
+	$(DOCKER_COMPOSE_BASE_COMMAND) run worker poetry run flask shell
 
 # Frontend
 frontend-shell: ## Start a shell in the frontend container
-	docker compose run frontend sh
+	$(DOCKER_COMPOSE_BASE_COMMAND) run frontend sh
 
 # Postgres
 postgres.data.delete: ## Delete the postgres associated volume
@@ -54,32 +60,32 @@ postgres.data.delete: ## Delete the postgres associated volume
 	docker volume rm $(VOLUME)_postgres
 
 postgres.start: ## Start the postgres container
-	docker compose up -d postgres
-	docker compose exec postgres \
+	$(DOCKER_COMPOSE_BASE_COMMAND) up -d postgres
+	$(DOCKER_COMPOSE_BASE_COMMAND) exec postgres \
 	  sh -c 'while ! nc -z postgres 5432; do sleep 0.1; done'
 
 postgres.shell:
-	docker compose exec postgres \
+	$(DOCKER_COMPOSE_BASE_COMMAND) exec postgres \
 	  psql -U obscure-user app
 
 # Migrations
 
 migrations.blank: 
 	make postgres.start
-	docker compose run worker \
+	$(DOCKER_COMPOSE_BASE_COMMAND) run worker \
 	  poetry run flask db revision
 
 migrations.create: 
 	make postgres.start
-	docker compose run worker \
+	$(DOCKER_COMPOSE_BASE_COMMAND) run worker \
 	  poetry run flask db migrate
 
 migrations.upgrade: 
 	make postgres.start
-	docker compose run worker \
+	$(DOCKER_COMPOSE_BASE_COMMAND) run worker \
 	  poetry run flask db upgrade
 
 migrations.heads: 
 	make postgres.start
-	docker compose run worker \
+	$(DOCKER_COMPOSE_BASE_COMMAND) run worker \
 	  poetry run flask db heads
