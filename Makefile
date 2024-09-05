@@ -5,11 +5,15 @@ default: help
 .PHONY: help
 help:
 	@clear
+	@echo "\033[0;32m Python React Docker Boilerplate \033[0m"
+	@echo "-----------------------------"
+	@echo "This is a boilerplate for a fullstack application using Python, React, and Docker."
+	@echo "It includes a Flask backend, a React frontend, and a Postgres database."
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[0;33m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 # General
 develop: ## Start the development environment
-	clean build migrations.upgrade run
+	make clean build migrations.upgrade run
 
 clean: ## Stop and remove containers, networks, images, and volumes
 	docker compose rm -vf
@@ -46,7 +50,7 @@ frontend-shell: ## Start a shell in the frontend container
 
 # Postgres
 postgres.data.delete: ## Delete the postgres associated volume
-	clean
+	make clean
 	docker volume rm $(VOLUME)_postgres
 
 postgres.start: ## Start the postgres container
@@ -61,21 +65,21 @@ postgres.shell:
 # Migrations
 
 migrations.blank: 
-	postgres.start
+	make postgres.start
 	docker compose run worker \
 	  poetry run flask db revision
 
 migrations.create: 
-	postgres.start
+	make postgres.start
 	docker compose run worker \
 	  poetry run flask db migrate
 
 migrations.upgrade: 
-	postgres.start
+	make postgres.start
 	docker compose run worker \
 	  poetry run flask db upgrade
 
 migrations.heads: 
-	postgres.start
+	make postgres.start
 	docker compose run worker \
 	  poetry run flask db heads
