@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_restful import Api
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -11,6 +12,7 @@ from lwca.schemas import ma
 from lwca.settings import Settings as S
 from lwca.tasks import make_celery
 
+from lwca.resources.auth.login_resource import LoginResource
 
 class Application:
     """
@@ -38,6 +40,7 @@ class Application:
         # Register the public routes
         self.register_routes()
         self.init_extensions()
+        self.init_api()
         
     def init_extensions(self):
         """
@@ -51,6 +54,10 @@ class Application:
         """
         # Init Celery
         self.celery = make_celery(self.flask_app)
+        
+        # Init Flask-RESTful
+        self.api = Api(self.flask_app)
+    
         # Init Flask-SQLAlchemy
         self.db = db
         self.db.init_app(self.flask_app)
@@ -74,6 +81,10 @@ class Application:
         for blueprint in [routes.auth, routes.users, routes.projects]:
             self.flask_app.register_blueprint(blueprint)
 
+    def init_api(self):
+        self.api.add_resource(LoginResource, '/api/authentification/login')
+        
+    
     def init_routes(self):
         @self.flask_app.route('/')
         def home(key):
