@@ -37,6 +37,7 @@ def register():
 
 @blueprint.route('/api/v1/auth/logout', methods=['POST'])
 def logout():
+    # Invalid the JWT token
     return 'logout'
 
 
