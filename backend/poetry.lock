@@ -425,18 +425,19 @@ Flask-SQLAlchemy = ">=1.0"
 
 [[package]]
 name = "flask-shell-ipython"
-version = "0.5.1"
+version = "0.5.3"
 description = "Replace default `flask shell` command by similar command running IPython."
 optional = false
-python-versions = ">=3.6, <4"
+python-versions = "<4.0,>=3.8"
 files = [
-    {file = "flask_shell_ipython-0.5.1-py2.py3-none-any.whl", hash = "sha256:8c948c0721bcc5b8eb274e1831c8a428dfc693099609c33d2f330091782cce10"},
+    {file = "flask_shell_ipython-0.5.3-py3-none-any.whl", hash = "sha256:c0a1905671ba7223d36e59854e7900832a0febf127e5c01793377af878560ebd"},
+    {file = "flask_shell_ipython-0.5.3.tar.gz", hash = "sha256:1a8bb90da18c34d15bc4ad817820101fffa93507a7eb685532ed518aea280848"},
 ]
 
 [package.dependencies]
 click = "*"
-Flask = ">=1.0"
-IPython = ">=5.0.0"
+flask = ">=1.0"
+ipython = ">=5.0.0"
 
 [[package]]
 name = "flask-socketio"
@@ -1563,4 +1564,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.12.0,<4"
-content-hash = "bfa6194408470645c9b2598eede547145c8e7c859d111a416189651805e80d64"
+content-hash = "6d961656cd94cbc14a17dfe6d3e5c7b35edf71f62087bdcd1314e5b1cea15dd8"
