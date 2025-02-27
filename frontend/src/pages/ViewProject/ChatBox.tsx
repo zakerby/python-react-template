@@ -14,7 +14,7 @@ const ChatBox = ({ project }: ChatBoxProps) => {
     };
 
     return (
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="rounded-xs border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="flex-1 p:2 sm:p-6 justify-between flex flex-col">
                 <div 
                     id="messages" 

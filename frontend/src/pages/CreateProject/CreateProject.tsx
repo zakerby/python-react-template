@@ -19,7 +19,7 @@ const CreateProject = () => {
 
             <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
                 <div className="flex flex-col gap-9">
-                    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                    <div className="rounded-xs border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                         <div className="flex flex-col gap-5.5 p-6.5">
                             <CustomInput
                                 label="Project name"
@@ -28,7 +28,7 @@ const CreateProject = () => {
                                 onChange={setProjectName}
                                 placeholder="Input a project name"
                             />
-                            <button onClick={handleCreateProjectBtnClick} className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
+                            <button onClick={handleCreateProjectBtnClick} className="flex w-full justify-center rounded-sm bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
                                 Create project
                             </button>
                         </div>

@@ -31,7 +31,7 @@ const ViewProject = () => {
     <>
       <Breadcrumb pageName={pageName} />
       <div className="flex flex-col gap-9 pt-4">
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="rounded-xs border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="flex-1 p:2 sm:p-6 justify-between flex flex-col">
             <p className="text-center text-gray-400">
               Insert content here
