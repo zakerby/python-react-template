@@ -12,9 +12,9 @@ const SignIn: React.FC = () => {
   const {user, login} = useUserActions();
 
   useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
+    // if (user) {
+    //   navigate('/');
+    // }
   }, [user]);
 
 

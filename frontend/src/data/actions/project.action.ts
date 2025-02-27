@@ -7,7 +7,6 @@ import { userAtom } from "../state/user";
 
 import { useProjectsRequest } from "../requests/useProjectsRequest";
 
-
 export const useProjectActions = () => {
     const [user] = useAtom(userAtom);
     const [projects, setProjects] = useAtom(projectAtom);
