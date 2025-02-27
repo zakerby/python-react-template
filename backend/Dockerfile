@@ -32,15 +32,15 @@ RUN mkdir -p /var/run/celery && \
     chown -R app /var/run/celery /srv
 USER app
 
+ADD lwca ./lwca
+
 # Install Python dependencies
 ADD pyproject.toml poetry.lock ./
 RUN poetry install
 
 # Add the project
 # NOTE Run the install again to install the project
-ADD lwca ./lwca
 ADD migrations ./migrations
-RUN poetry install
 
 # Add system files
 ADD filesystem /
