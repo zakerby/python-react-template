@@ -11,7 +11,7 @@ const logAtom = atom([{
     {
         message: "Ingesting the data in the vector DB, this may take a while...",
         timestamp: new Date().toLocaleDateString()
-    },
+    },  
     {
         message: "Analyzing the data...",
         timestamp: new Date().toLocaleDateString()
