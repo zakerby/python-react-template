@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 import { User } from '../types/user';
 
 const userAtom = atom({

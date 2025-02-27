@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom } from 'jotai';
 
 const logAtom = atom({
     key: 'log',

@@ -17,6 +17,7 @@
     "axios": "^1.7.4",
     "flatpickr": "^4.6.13",
     "headlessui": "^0.0.0",
+    "jotai": "^2.12.1",
     "jsvectormap": "^1.5.3",
     "match-sorter": "^8.0.0",
     "react": "^19.0.0",
