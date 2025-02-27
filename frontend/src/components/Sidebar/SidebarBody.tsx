@@ -51,6 +51,7 @@ const SidebarBody = ({ sidebarExpanded, setSidebarExpanded }: SidebarBodyProps) 
                                     label={project.name}
                                     path={`view-project/${project.id}`}
                                     pathname={pathname}
+                                    key={`project-${index}`}
                                 />
                             ))
                         }
