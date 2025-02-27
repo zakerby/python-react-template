@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-
 import { routes } from './routes';
 import Loader from './common/Loader';
 

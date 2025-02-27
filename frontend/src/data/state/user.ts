@@ -1,9 +1,9 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 import { User } from '../types/user';
 
 const userAtom = atom({
     key: 'user',
-    default: JSON.parse(localStorage.getItem('user')) as User | null
+    default: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) as User : null
 });
 
 

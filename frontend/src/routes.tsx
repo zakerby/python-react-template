@@ -1,19 +1,20 @@
-import PageTitle from './components/PageTitle';
-import SignIn from './pages/Authentication/SignIn';
-import SignUp from './pages/Authentication/SignUp';
-import Calendar from './pages/Calendar';
-import Chart from './pages/Chart';
-import Dashboard from './pages/Dashboard/Dashboard';
-import FormElements from './pages/Form/FormElements';
-import FormLayout from './pages/Form/FormLayout';
-import Profile from './pages/Profile';
-import Settings from './pages/Settings';
-import Tables from './pages/Tables';
-import Alerts from './pages/UiElements/Alerts';
-import Buttons from './pages/UiElements/Buttons';
+import {lazy} from 'react';
 
-import CreateProject from './pages/CreateProject/CreateProject';
-import ViewProject from './pages/ViewProject/ViewProject';
+import PageTitle from './components/PageTitle';
+
+const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
+const SignIn = lazy(() => import('./pages/Authentication/SignIn'));
+const SignUp = lazy(() => import('./pages/Authentication/SignUp'));
+const Calendar = lazy(() => import('./pages/Calendar'));
+const FormElements = lazy(() => import('./pages/Form/FormElements'));
+const FormLayout = lazy(() => import('./pages/Form/FormLayout'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Settings = lazy(() => import('./pages/Settings'));
+const Alerts = lazy(() => import('./pages/UiElements/Alerts'));
+const Buttons = lazy(() => import('./pages/UiElements/Buttons'));
+
+const CreateProject = lazy(() => import('./pages/CreateProject/CreateProject'));
+const ViewProject = lazy(() => import('./pages/ViewProject/ViewProject'));
 
 const routes = [
     {

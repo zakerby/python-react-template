@@ -1,4 +1,4 @@
-import { useRecoilState } from "recoil";
+import {useAtom} from 'jotai';
 import { useNavigate } from "react-router-dom";
 
 import { projectAtom } from "../state/project";
@@ -7,11 +7,10 @@ import { userAtom } from "../state/user";
 
 import { useProjectsRequest } from "../requests/useProjectsRequest";
 
-
 export const useProjectActions = () => {
-    const [user] = useRecoilState(userAtom);
-    const [projects, setProjects] = useRecoilState(projectAtom);
-    const [chatMessages, setChatMessages] = useRecoilState(chatAtom);
+    const [user] = useAtom(userAtom);
+    const [projects, setProjects] = useAtom(projectAtom);
+    const [chatMessages, setChatMessages] = useAtom(chatAtom);
     const navigate = useNavigate();
     const { getProjectsRequest, createProjectRequest, getProjectRequest, queryLLMRequest } = useProjectsRequest();
 
