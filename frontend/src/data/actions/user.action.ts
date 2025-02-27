@@ -1,11 +1,11 @@
-import { useRecoilState } from 'recoil';
+import {useAtom} from 'jotai';
 
 import { userAtom } from '../state/user';
 import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useAuthRequest } from '../requests/useAuthRequest';
 
 export const useUserActions = () => {
-    const [user, setUser] = useRecoilState(userAtom);
+    const [user, setUser] = useAtom(userAtom);
     const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
     const { loginRequest, registerRequest } = useAuthRequest();
 
