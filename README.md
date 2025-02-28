@@ -1,6 +1,7 @@
 # Python/Flask and TypeScript/React Starter Project
 
-This is a starter project that implements a backend API using Python and Flask, and a frontend using TypeScript, React, Tailwind CSS, and Recoil for state management. The project is containerized using Docker and Docker Compose for easy development and deployment.
+Starter project for building a full-stack web application using Python/Flask and TypeScript/React.
+
 
 ## Table of Contents
 
@@ -37,8 +38,22 @@ This is a starter project that implements a backend API using Python and Flask, 
 ### Backend
 -  [Flask](https://flask.palletsprojects.com/en/3.0.x/): A lightweight WSGI web application framework.
 -  [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/): An extension for Flask that adds support for SQLAlchemy.
+- [PostgreSQL](https://www.postgresql.org/): A powerful, open-source object-relational database system.
+- [Poetry](https://python-poetry.org/): A dependency management and packaging tool.
+- [Pytest](https://pytest.org/): A testing framework for Python.
+- [Flask-Migrate](https://flask-migrate.readthedocs.io/): An extension that handles SQLAlchemy database migrations for Flask applications.
+- [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/): An extension that adds support for JSON Web Tokens to Flask applications.
+- [Flask-Cors](https://flask-cors.readthedocs.io/): An extension that adds support for Cross-Origin Resource Sharing (CORS) to Flask applications.
 
 ### Frontend
+
+- [React](https://reactjs.org/): A JavaScript library for building user interfaces.
+- [TypeScript](https://www.typescriptlang.org/): A typed superset of JavaScript that compiles to plain JavaScript.
+- [Jotai](https://jotai.org/) A state management library with an atomic approach.
+- [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for rapidly building custom designs.
+- [React Router](https://reactrouter.com/): A collection of navigational components that compose declaratively with your application.
+- [Axios](https://axios-http.com/): A promise-based HTTP client for the browser and Node.js.
+
 
 ## Features
 
