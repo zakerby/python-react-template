@@ -9,6 +9,8 @@ export const useAuthRequest = () => {
         const response = await axiosBackend.post(`/${AUTH_DOMAIN}/login`, {
             username,
             password
+        }).catch((error) => {
+            throw new Error(error.response.data.message);
         });
         const { user, access_token: accessToken } = response.data;
         return {
