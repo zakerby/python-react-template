@@ -19,6 +19,7 @@ This is a starter project that implements a backend API using Python and Flask, 
   - [Environment Variables](#environment-variables)
     - [Backend](#backend-2)
     - [Frontend](#frontend-2)
+- [Migrations](#migrations)
 - [Running Tests](#running-tests)
   - [Backend](#backend-3)
   - [Frontend](#frontend-3)
@@ -145,6 +146,10 @@ Create a `.env` file in the `frontend` directory and add the following environme
 ```
 REACT_APP_API_URL=http://localhost:5000/api
 ```
+
+## Migrations 
+
+
 
 ## Running Tests
 
