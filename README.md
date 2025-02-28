@@ -2,6 +2,30 @@
 
 This is a starter project that implements a backend API using Python and Flask, and a frontend using TypeScript, React, Tailwind CSS, and Recoil for state management. The project is containerized using Docker and Docker Compose for easy development and deployment.
 
+## Table of Contents
+
+- [Project Structure](#project-structure)
+- [Dependencies](#dependencies)
+  - [Backend](#backend)
+  - [Frontend](#frontend)
+- [Features](#features)
+  - [Backend](#backend-1)
+  - [Frontend](#frontend-1)
+- [Setup Instructions](#setup-instructions)
+  - [Using Make](#using-make)
+  - [Using Docker Compose](#using-docker-compose)
+  - [Backend Setup](#backend-setup)
+  - [Frontend Setup](#frontend-setup)
+  - [Environment Variables](#environment-variables)
+    - [Backend](#backend-2)
+    - [Frontend](#frontend-2)
+- [Running Tests](#running-tests)
+  - [Backend](#backend-3)
+  - [Frontend](#frontend-3)
+- [Contributing](#contributing)
+- [License](#license)
+
+
 ## Project Structure
 
 - **backend/**: Contains the Flask backend API.
@@ -18,13 +42,11 @@ This is a starter project that implements a backend API using Python and Flask, 
 ## Features
 
 ### Backend
-
 - User authentication and authorization
 - CRUD operations for various resources
 - JWT-based authentication
 
 ### Frontend
-
 - User authentication and authorization
 - Responsive design with Tailwind CSS
 - State management with Recoil
