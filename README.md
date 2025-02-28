@@ -1,23 +1,114 @@
 # Python/Flask and TypeScript/React Starter Project
 
-This is a starter project that implements a backend API using Python and Flask, and a frontend using TypeScript, React, Tailwind CSS, and Recoil for state management.
+Starter project for building a full-stack web application using Python/Flask and TypeScript/React.
+
+
+## Table of Contents
+
+- [Project Structure](#project-structure)
+- [Dependencies](#dependencies)
+  - [Backend](#backend)
+  - [Frontend](#frontend)
+- [Features](#features)
+  - [Backend](#backend-1)
+  - [Frontend](#frontend-1)
+- [Setup Instructions](#setup-instructions)
+  - [Using Make](#using-make)
+  - [Using Docker Compose](#using-docker-compose)
+  - [Backend Setup](#backend-setup)
+  - [Frontend Setup](#frontend-setup)
+  - [Environment Variables](#environment-variables)
+    - [Backend](#backend-2)
+    - [Frontend](#frontend-2)
+- [Migrations](#migrations)
+- [Running Tests](#running-tests)
+  - [Backend](#backend-3)
+  - [Frontend](#frontend-3)
+- [Contributing](#contributing)
+- [License](#license)
+
 
 ## Project Structure
 
 - **backend/**: Contains the Flask backend API.
 - **frontend/**: Contains the React frontend application.
 
-## Backend
+## Dependencies
 
-The backend is built with Python and Flask. It provides a RESTful API for the frontend to interact with.
+### Backend
+-  [Flask](https://flask.palletsprojects.com/en/3.0.x/): A lightweight WSGI web application framework.
+-  [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/): An extension for Flask that adds support for SQLAlchemy.
+- [PostgreSQL](https://www.postgresql.org/): A powerful, open-source object-relational database system.
+- [Poetry](https://python-poetry.org/): A dependency management and packaging tool.
+- [Pytest](https://pytest.org/): A testing framework for Python.
+- [Flask-Migrate](https://flask-migrate.readthedocs.io/): An extension that handles SQLAlchemy database migrations for Flask applications.
+- [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/): An extension that adds support for JSON Web Tokens to Flask applications.
+- [Flask-Cors](https://flask-cors.readthedocs.io/): An extension that adds support for Cross-Origin Resource Sharing (CORS) to Flask applications.
 
-### Features
+### Frontend
 
+- [React](https://reactjs.org/): A JavaScript library for building user interfaces.
+- [TypeScript](https://www.typescriptlang.org/): A typed superset of JavaScript that compiles to plain JavaScript.
+- [Jotai](https://jotai.org/) A state management library with an atomic approach.
+- [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for rapidly building custom designs.
+- [React Router](https://reactrouter.com/): A collection of navigational components that compose declaratively with your application.
+- [Axios](https://axios-http.com/): A promise-based HTTP client for the browser and Node.js.
+
+
+## Features
+
+### Backend
 - User authentication and authorization
 - CRUD operations for various resources
 - JWT-based authentication
 
-### Setup
+### Frontend
+- User authentication and authorization
+- Responsive design with Tailwind CSS
+- State management with Recoil
+
+## Setup Instructions
+
+### Using Make
+
+1. Start the development environment:
+   ```bash
+   make develop
+   ```
+
+2. Stop and remove containers, networks, images, and volumes:
+   ```bash
+   make clean
+   ```
+
+3. Build the containers:
+   ```bash
+   make build
+   ```
+
+4. Start the containers:
+   ```bash
+   make run
+   ```
+
+### Using Docker Compose
+
+1. Build the containers:
+   ```bash
+   docker compose --profile frontend --profile backend  build
+   ```
+
+2. Start the containers:
+   ```bash
+   docker compose up -d
+   ```
+
+3. Stop and remove containers, networks, images, and volumes:
+   ```bash
+   docker compose down
+   ```
+
+### Backend Setup
 
 1. Navigate to the `backend` directory:
    ```bash
@@ -32,7 +123,7 @@ The backend is built with Python and Flask. It provides a RESTful API for the fr
 
 3. Install the dependencies:
    ```bash
-   pip install -r requirements.txt
+   poetry install
    ```
 
 4. Run the Flask application:
@@ -40,34 +131,40 @@ The backend is built with Python and Flask. It provides a RESTful API for the fr
    flask run
    ```
 
-### Environment Variables
+### Frontend Setup
 
+1. Navigate to the `frontend` directory:
+   ```bash
+   cd frontend
+   ```
 
-##
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
 
- Frontend
-
-The frontend is built with TypeScript, React, Tailwind CSS, and Recoil for state management.
-
-### Features
-
-- User authentication and authorization
-- Responsive design with Tailwind CSS
-- State management with Recoil
-
-### Setup
-
-```bash
-make develop
-```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
 ### Environment Variables
+
+#### Backend
+
+Create a `.env` file in the `backend` directory and add the necessary environment variables.
+
+#### Frontend
 
 Create a `.env` file in the `frontend` directory and add the following environment variables:
 
 ```
 REACT_APP_API_URL=http://localhost:5000/api
 ```
+
+## Migrations 
+
+
 
 ## Running Tests
 
@@ -94,6 +191,3 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-```
-
-This README provides an overview of the project, setup instructions for both the backend and frontend, and information on running tests and contributing. Adjust the details as necessary to fit your specific project setup.
