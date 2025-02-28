@@ -24,7 +24,7 @@ clean: ## Stop and remove containers, networks, images, and volumes
 	$(DOCKER_COMPOSE_BASE_COMMAND) down
 
 build: ## Build the containers
-	$(DOCKER_COMPOSE_BASE_COMMAND) build --profile backend --profile frontend
+	$(DOCKER_COMPOSE_BASE_COMMAND) --profile backend --profile frontend build 
 
 run: ## Start the containers
 	$(DOCKER_COMPOSE_BASE_COMMAND) --profile backend --profile frontend up -d

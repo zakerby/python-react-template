@@ -9,8 +9,16 @@ updates:
     directory: "/backend" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      action-deps:
+        patterns:
+          - "*"
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
       interval: "weekly"
+    groups:
+      action-deps:
+        patterns:
+          - "*"
