@@ -1,7 +1,20 @@
+import { useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import userThree from '../images/user/user-03.png';
 
+import { useUserActions } from '../data/actions/user.action';
+
 const Settings = () => {
+  const { fetchUserSettings } = useUserActions();
+  const [userSettings, setUserSettings] = useState<any>(null);
+
+
+  useEffect(() => {
+    fetchUserSettings().then((res) => {
+      setUserSettings(res);
+    });
+  }, []);
+
   return (
     <>
       <div className="mx-auto max-w-270">

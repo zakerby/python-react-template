@@ -15,7 +15,9 @@ class User(Base):
     email = db.Column(db.String(80), index=True, unique=True, nullable=False)
     password = db.Column(db.String(500), nullable=False)
     
+    # Relationships
     projects = db.relationship('Project', backref='user', lazy=True, cascade="all, delete-orphan")
+    user_settings = db.relationship('UserSettings', backref='user', lazy=True, cascade="all, delete-orphan", uselist=False)
 
     def __init__(self, **kwargs):
         """
