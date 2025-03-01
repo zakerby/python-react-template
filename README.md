@@ -20,7 +20,9 @@ Starter project for building a full-stack web application using Python/Flask and
   - [Environment Variables](#environment-variables)
     - [Backend](#backend-2)
     - [Frontend](#frontend-2)
-- [Migrations](#migrations)
+- [Backend](#backend-3)
+  - [Swagger](#swagger)
+  - [Migrations](#migrations)
 - [Running Tests](#running-tests)
   - [Backend](#backend-3)
   - [Frontend](#frontend-3)
@@ -162,7 +164,13 @@ Create a `.env` file in the `frontend` directory and add the following environme
 REACT_APP_API_URL=http://localhost:5000/api
 ```
 
-## Migrations 
+## Backend
+
+## Swagger
+
+The backend API is documented using Swagger. To view the Swagger documentation, navigate to `http://localhost:8080/apidocs`.
+
+### Migrations 
 
 
 
