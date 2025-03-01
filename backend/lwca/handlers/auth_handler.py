@@ -62,17 +62,17 @@ def handle_register_user(data):
             return {'message': PASSWORDS_DO_NOT_MATCH}, HTTPStatus.BAD_REQUEST
 
         if username is not None and password is not None:
-            user = User.query.filter_by(username=username).first()
-            if user is None:
-                try:
-                    user = User(username=username, email=email, password=password)
-                    user.hash_password()
-                    user.save()
-                    # Generate a JWT token to allow auto login
-                    access_token = create_access_token(identity=user.id)
-                    return {'access_token': access_token, 'user': user.to_dict()}, HTTPStatus.OK
-                except Exception as e:
-                    return {'message': ERROR_CREATING_USER.format(str(e))}, HTTPStatus.INTERNAL_SERVER_ERROR
+            try:
+                user = User.query.filter_by(username=username).first()
+                if user is None:
+                        user = User(username=username, email=email, password=password)
+                        user.hash_password()
+                        user.save()
+                        # Generate a JWT token to allow auto login
+                        access_token = create_access_token(identity=user.id)
+                        return {'access_token': access_token, 'user': user.to_dict()}, HTTPStatus.OK
+            except Exception as e:
+                return {'message': ERROR_CREATING_USER.format(str(e))}, HTTPStatus.INTERNAL_SERVER_ERROR
             else:
                 return {'message': USER_ALREADY_EXISTS}, HTTPStatus.CONFLICT
         else:

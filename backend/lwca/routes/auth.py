@@ -75,6 +75,9 @@ def register():
             password:
               type: string
               example: securepassword
+            confirm_password:
+              type: string
+              example: securepassword
             email:
               type: string
               example: newuser@example.com
