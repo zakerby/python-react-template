@@ -3,11 +3,14 @@ import {useAtom} from 'jotai';
 import { userAtom } from '../state/user';
 import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useAuthRequest } from '../requests/useAuthRequest';
+import { useUserSettingsRequest } from '../requests/useUserSettingsRequest';
 
 export const useUserActions = () => {
     const [user, setUser] = useAtom(userAtom);
     const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
     const { loginRequest, registerRequest } = useAuthRequest();
+
+    const  {getUserSettingsRequest, updateUserSettingsRequest} = useUserSettingsRequest();
 
     const login = async (username: string, password: string) => {
         const { user, accessToken } = await loginRequest(username, password);
@@ -34,9 +37,22 @@ export const useUserActions = () => {
         deleteAccessToken();
     }
 
+    const fetchUserSettings = async () => {
+        const userSettings = await getUserSettingsRequest();
+        return userSettings;
+    }
+
+    const updateUserSettings = async (userSettings: any) => {
+        const updatedUserSettings = await updateUserSettingsRequest(userSettings);
+        return updatedUserSettings;
+    }
+
     const getToken = () => {
         return storedAccessToken;
     }
 
-    return { user, login, logout, register, getToken };
+    return { 
+        user, login, logout, register, getToken,
+        fetchUserSettings,  updateUserSettings
+    };
 }
