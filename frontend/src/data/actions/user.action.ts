@@ -1,11 +1,14 @@
 import {useAtom} from 'jotai';
 
+import { useNavigate } from "react-router-dom";
+
 import { userAtom } from '../state/user';
 import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useAuthRequest } from '../requests/useAuthRequest';
 import { useUserSettingsRequest } from '../requests/useUserSettingsRequest';
 
 export const useUserActions = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useAtom(userAtom);
     const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
     const { loginRequest, registerRequest } = useAuthRequest();
@@ -20,6 +23,7 @@ export const useUserActions = () => {
         };
         setAccessToken(accessToken);
         setUser(newUser);
+        navigate('/');
     }
 
     const register = async (username: string, password: string, confirm_password: string, email: string) => {
@@ -35,6 +39,8 @@ export const useUserActions = () => {
     const logout = () => {
         setUser(null);
         deleteAccessToken();
+        // redirect to login
+        navigate('/auth/login');
     }
 
     const fetchUserSettings = async () => {

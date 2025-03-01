@@ -15,6 +15,8 @@ function App() {
   const { pathname } = useLocation();
   const {getToken} = useUserActions();
 
+  const token =  getToken();
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,7 +34,7 @@ function App() {
   // if the user is authenticated, return the authenticated layout
   // otherwise, return the unauthenticated layout & redirect to the login page
 
-  const CurrentLayout = getToken() ? AuthenticatedLayout : UnauthenticatedLayout;
+  const CurrentLayout = token !== null ? AuthenticatedLayout : UnauthenticatedLayout;
 
   return (
       <CurrentLayout>
