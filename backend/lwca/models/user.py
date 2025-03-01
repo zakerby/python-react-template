@@ -17,7 +17,7 @@ class User(Base):
     
     # Relationships
     projects = db.relationship('Project', backref='user', lazy=True, cascade="all, delete-orphan")
-    user_settings = db.relationship('UserSettings', backref='user', lazy=True, cascade="all, delete-orphan")
+    user_settings = db.relationship('UserSettings', backref='user', lazy=True, cascade="all, delete-orphan", uselist=False)
 
     def __init__(self, **kwargs):
         """

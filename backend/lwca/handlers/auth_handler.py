@@ -69,6 +69,8 @@ def handle_register_user(data):
                         user = User(username=username, email=email, password=password)
                         user.hash_password()
                         
+                        user_settings = UserSettings(user_id=user.id, email=email)
+                        user.user_settings = user_settings
                         
                         user.save()
                         

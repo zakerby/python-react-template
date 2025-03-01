@@ -8,6 +8,7 @@ class UserSettings(Base):
     __tablename__ = 'users_settings'
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
     email = db.Column(db.String(80))
