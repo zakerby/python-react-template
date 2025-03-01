@@ -7,6 +7,7 @@ from flask_jwt_extended import get_jwt, get_jwt_identity, set_access_cookies
 
 
 from lwca.models.user import User
+from lwca.models.user_settings import UserSettings
 from lwca.handlers.constants import (
     INCORRECT_PASSWORD,
     USER_NOT_FOUND,
@@ -67,7 +68,10 @@ def handle_register_user(data):
                 if user is None:
                         user = User(username=username, email=email, password=password)
                         user.hash_password()
+                        
+                        
                         user.save()
+                        
                         # Generate a JWT token to allow auto login
                         access_token = create_access_token(identity=user.id)
                         return {'access_token': access_token, 'user': user.to_dict()}, HTTPStatus.OK
