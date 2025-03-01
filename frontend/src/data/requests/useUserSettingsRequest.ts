@@ -1,6 +1,6 @@
 import { useAxios } from "../helpers/useAxios";
 
-const USER_SETTINGS_DOMAIN = 'user_settings';
+const USER_SETTINGS_DOMAIN = 'user/settings';
 
 export const useUserSettingsRequest = () => {
     const { axiosBackend } = useAxios();

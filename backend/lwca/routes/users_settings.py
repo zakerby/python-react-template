@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 
+from lwca.handlers.user_settings_handler import handle_get_user_settings
+
 blueprint  = Blueprint('users_settings', __name__)
 
 @blueprint.route('/api/v1/user/settings', methods=['GET'])
@@ -64,8 +66,8 @@ def get_user_settings():
               example: "Failed to retrieve user settings"
     """
     if request.method == 'GET':
-        return jsonify({}), 200
-
+        user_settings, error_code = handle_get_user_settings()
+        return jsonify(user_settings), error_code
 
 @blueprint.route('/api/v1/user/settings', methods=['PUT'])
 @jwt_required()
