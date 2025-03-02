@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 
+from lwca.handlers.user_notifications_handler import handle_get_user_notifications
+
 blueprint = Blueprint('user_notifications', __name__)
 
 @blueprint.route('/api/v1/user/notifications', methods=['GET'])
@@ -48,4 +50,6 @@ def get_user_notifications():
       500:
         description: Internal server error.
     """
-    return jsonify({"message": "User notifications retrieved successfully."}), 200
+    if request.method == 'GET':
+        user_notifications, error_code = handle_get_user_notifications()
+        return jsonify(user_notifications), error_code

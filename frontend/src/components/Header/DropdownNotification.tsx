@@ -1,34 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
 import NotificationItem from './NotificationItem';
+import { useUserActions } from '../../data/actions/user.action';
 
 const DropdownNotification = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
+  const [notifications, setNotifications] = useState([]);
 
-  const notifications = [
-    {
-      title: 'Edit your information in a swipe',
-      message: 'Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.',
-      date: '12 May, 2025',
-    },
-    {
-      title: 'It is a long established fact',
-      message: 'that a reader will be distracted by the readable.',
-      date: '24 Feb, 2025',
-    },
-    {
-      title: 'There are many variations',
-      message: 'of passages of Lorem Ipsum available, but the majority have suffered',
-      date: '04 Jan, 2025',
-    },
-    {
-      title: 'There are many variations',
-      message: 'of passages of Lorem Ipsum available, but the majority have suffered',
-      date: '01 Dec, 2024',
-    },
-  ];
+  const {fetchUserNotifications} = useUserActions();
+
+  // Fetch the notifications from the backend
+  useEffect(() => {
+    fetchUserNotifications().then((fetchedNotifs: []) => {
+      if (fetchedNotifs.length > 0) {
+        setNotifications(fetchedNotifs);
+      }
+    });
+  }, []);
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">

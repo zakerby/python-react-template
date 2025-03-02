@@ -28,6 +28,7 @@ class UserNotification(Base):
         return {
             'id': self.id,
             'date': self.date,
+            'title': self.title,
             'message': self.message,
-            'read': self.read
+            'read': self.is_read
         }
