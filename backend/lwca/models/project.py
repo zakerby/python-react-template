@@ -12,7 +12,6 @@ class Project(Base):
     name = db.Column(db.String(64))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     
-
     def to_dict(self):
         """
             Return a dictionary representation of the object

@@ -1,10 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
+import NotificationItem from './NotificationItem';
+import { useUserActions } from '../../data/actions/user.action';
 
 const DropdownNotification = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
+  const [notifications, setNotifications] = useState([]);
+
+  const {fetchUserNotifications} = useUserActions();
+
+  // Fetch the notifications from the backend
+  useEffect(() => {
+    fetchUserNotifications().then((fetchedNotifs: []) => {
+      if (fetchedNotifs.length > 0) {
+        setNotifications(fetchedNotifs);
+      }
+    });
+  }, []);
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -51,69 +65,9 @@ const DropdownNotification = () => {
             </div>
 
             <ul className="flex h-auto flex-col overflow-y-auto">
-              <li>
-                <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-                  to="#"
-                >
-                  <p className="text-sm">
-                    <span className="text-black dark:text-white">
-                      Edit your information in a swipe
-                    </span>{' '}
-                    Sint occaecat cupidatat non proident, sunt in culpa qui
-                    officia deserunt mollit anim.
-                  </p>
-
-                  <p className="text-xs">12 May, 2025</p>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-                  to="#"
-                >
-                  <p className="text-sm">
-                    <span className="text-black dark:text-white">
-                      It is a long established fact
-                    </span>{' '}
-                    that a reader will be distracted by the readable.
-                  </p>
-
-                  <p className="text-xs">24 Feb, 2025</p>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-                  to="#"
-                >
-                  <p className="text-sm">
-                    <span className="text-black dark:text-white">
-                      There are many variations
-                    </span>{' '}
-                    of passages of Lorem Ipsum available, but the majority have
-                    suffered
-                  </p>
-
-                  <p className="text-xs">04 Jan, 2025</p>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-                  to="#"
-                >
-                  <p className="text-sm">
-                    <span className="text-black dark:text-white">
-                      There are many variations
-                    </span>{' '}
-                    of passages of Lorem Ipsum available, but the majority have
-                    suffered
-                  </p>
-
-                  <p className="text-xs">01 Dec, 2024</p>
-                </Link>
-              </li>
+              {notifications.map((notification, index) => (
+                <NotificationItem key={index} {...notification} />
+              ))}
             </ul>
           </div>
         )}

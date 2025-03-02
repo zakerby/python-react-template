@@ -6,6 +6,7 @@ import { userAtom } from '../state/user';
 import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useAuthRequest } from '../requests/useAuthRequest';
 import { useUserSettingsRequest } from '../requests/useUserSettingsRequest';
+import { useUserNotificationsRequest } from '../requests/useUserNotificationsRequest';
 
 export const useUserActions = () => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ export const useUserActions = () => {
     const { loginRequest, registerRequest } = useAuthRequest();
 
     const  {getUserSettingsRequest, updateUserSettingsRequest} = useUserSettingsRequest();
+    const {getUserNotificationsRequest} = useUserNotificationsRequest();
 
     const login = async (username: string, password: string) => {
         const { user, accessToken } = await loginRequest(username, password);
@@ -53,12 +55,18 @@ export const useUserActions = () => {
         return updatedUserSettings;
     }
 
+    const fetchUserNotifications = async () => {
+        const userNotifications = await getUserNotificationsRequest();
+        return userNotifications;
+    }
+
     const getToken = () => {
         return storedAccessToken;
     }
 
     return { 
         user, login, logout, register, getToken,
-        fetchUserSettings,  updateUserSettings
+        fetchUserSettings,  updateUserSettings,
+        fetchUserNotifications
     };
 }
