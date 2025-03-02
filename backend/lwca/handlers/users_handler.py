@@ -44,11 +44,9 @@ def handle_create_user(username: str, email: str, password: str):
             
             user_settings = UserSettings(user_id=user.id, email=email)
             user.user_settings = user_settings
+            user.user_notifications  = handle_init_user_notifications(user.id)
             user.save()
-            
-            # Init notifications
-            handle_init_user_notifications(user.id)
-            
+                  
             # Generate a JWT token to allow auto login
             access_token = create_access_token(identity=user.id)
             return {'access_token': access_token, 'user': user.to_dict()}, HTTPStatus.OK
