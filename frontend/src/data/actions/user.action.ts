@@ -6,6 +6,7 @@ import { userAtom } from '../state/user';
 import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useAuthRequest } from '../requests/useAuthRequest';
 import { useUserSettingsRequest } from '../requests/useUserSettingsRequest';
+import { useState } from 'react';
 
 export const useUserActions = () => {
     const navigate = useNavigate();

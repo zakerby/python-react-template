@@ -6,7 +6,6 @@ import Loader from './common/Loader';
 import AuthenticatedLayout from './layout/AuthenticatedLayout';
 import UnauthenticatedLayout from './layout/UnauthenticatedLayout';
 import { ProtectedRoute } from './layout/ProtectedRoute';
-import { userAtom } from './data/state/user';
 import { useUserActions } from './data/actions/user.action';
 
 
