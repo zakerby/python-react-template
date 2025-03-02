@@ -3,12 +3,16 @@ from http import HTTPStatus
 
 from lwca.models.user import User
 from lwca.models.user_settings import UserSettings
+
 from lwca.logging import log_info, log_error
 from lwca.handlers.constants import (
     USER_NOT_FOUND,
     USER_DELETED,
-    ERROR_CREATING_USER
+    ERROR_CREATING_USER,
+    USER_ALREADY_EXISTS
 )
+
+from lwca.handlers.user_notifications_handler import handle_init_user_notifications
 
 def handle_delete_user():
     current_user_id = get_jwt_identity()
@@ -40,10 +44,15 @@ def handle_create_user(username: str, email: str, password: str):
             
             user_settings = UserSettings(user_id=user.id, email=email)
             user.user_settings = user_settings
-            
             user.save()
+            
+            # Init notifications
+            handle_init_user_notifications(user.id)
+            
             # Generate a JWT token to allow auto login
             access_token = create_access_token(identity=user.id)
             return {'access_token': access_token, 'user': user.to_dict()}, HTTPStatus.OK
+        else:
+            return {'message': USER_ALREADY_EXISTS}, HTTPStatus.CONFLICT
     except Exception as e:
         return {'message': ERROR_CREATING_USER.format(str(e))}, HTTPStatus.INTERNAL_SERVER_ERROR
