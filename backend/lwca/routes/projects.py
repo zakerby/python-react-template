@@ -235,7 +235,7 @@ def delete_project(project_id):
         return jsonify(message), error_code
 
 
-@blueprint.route('/api/v1/project/<int:project_id>', methods=['PATCH'])
+@blueprint.route('/api/v1/project/<int:project_id>', methods=['PUT'])
 @jwt_required()
 def update_project(project_id):
     """
@@ -299,7 +299,7 @@ def update_project(project_id):
               type: string
               example: "Failed to update project"
     """
-    if request.method == 'PATCH':
+    if request.method == 'PUT':
         payload = request.json
         message, error_code = handle_update_project(project_id, payload)
         return jsonify(message), error_code
