@@ -27,31 +27,16 @@ export const useProjectsRequest = () => {
     }
     
     const deleteProjectRequest = async (id: number) => {
-        const response = await axiosBackend.delete(`/${PROJECTS_DOMAIN}/${id}`);
+        const response = await axiosBackend.delete(`/${PROJECT_DOMAIN}/${id}`);
         return response.data;
     }
     
-    const runProjectAnalysisRequest = async (id: number) => {
-        // POST request to run analysis, parameter is either repoUrl or repoFolder
-        const response = await axiosBackend.post(`/${PROJECT_DOMAIN}/${id}/analysis`);
-        return response.data;
-    }
     
-    const queryLLMRequest = async (id: number, query: string) => {
-        // POST request to run analysis, parameter is either repoUrl or repoFolder
-        const response = await axiosBackend.post(`/${PROJECT_DOMAIN}/${id}/query_llm`, {
-            query
-        });
-        const {data: {message}} = response;
-        return message;
-    }
 
     return {
         getProjectsRequest,
         getProjectRequest,
         createProjectRequest,
-        deleteProjectRequest,
-        runProjectAnalysisRequest,
-        queryLLMRequest
+        deleteProjectRequest
     }
 }
