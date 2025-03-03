@@ -5,7 +5,7 @@ import { useAuthRequest } from '../requests/useAuthRequest';
 import { useUserSettingsRequest } from '../requests/useUserSettingsRequest';
 import { useUserNotificationsRequest } from '../requests/useUserNotificationsRequest';
 
-import  {userAtom, tokenAtom} from '../atoms/user';
+import  {userAtom, tokenAtom} from '../state/user';
 
 export const useUserActions = () => {
     const navigate = useNavigate();
