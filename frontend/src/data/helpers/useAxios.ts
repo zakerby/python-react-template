@@ -1,15 +1,17 @@
 import axios from 'axios';
-
-import {redirect} from 'react-router-dom';
+import { useAtom } from 'jotai';
 
 import { FULL_URL } from '../requests/common';
 import { useLocalStorage } from './useLocalStorage';
 
+import  {tokenAtom} from '../atoms/user';
+
 export const useAxios = () => {
     const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
+    const [token, setToken] = useAtom(tokenAtom);
 
     const getAuthHeader = () => {
-        return storedAccessToken;
+        return token;
     }
 
     const headers = {

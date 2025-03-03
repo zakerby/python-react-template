@@ -1,21 +1,22 @@
-import {useAtom} from 'jotai';
-
 import { useNavigate } from "react-router-dom";
-
-import { userAtom } from '../state/user';
+import { useAtom } from 'jotai';
 import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useAuthRequest } from '../requests/useAuthRequest';
 import { useUserSettingsRequest } from '../requests/useUserSettingsRequest';
 import { useUserNotificationsRequest } from '../requests/useUserNotificationsRequest';
 
+import  {userAtom, tokenAtom} from '../atoms/user';
+
 export const useUserActions = () => {
     const navigate = useNavigate();
-    const [user, setUser] = useAtom(userAtom);
     const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
     const { loginRequest, registerRequest } = useAuthRequest();
 
     const  {getUserSettingsRequest, updateUserSettingsRequest} = useUserSettingsRequest();
     const {getUserNotificationsRequest} = useUserNotificationsRequest();
+
+    const [user, setUser] = useAtom(userAtom);
+    const [token, setToken] = useAtom(tokenAtom);
 
     const login = async (username: string, password: string) => {
         const { user, accessToken } = await loginRequest(username, password);
@@ -23,7 +24,8 @@ export const useUserActions = () => {
             ...user,
             accessToken
         };
-        setAccessToken(accessToken);
+
+        setToken(accessToken);
         setUser(newUser);
         navigate('/');
     }
@@ -61,7 +63,7 @@ export const useUserActions = () => {
     }
 
     const getToken = () => {
-        return storedAccessToken;
+        return token;
     }
 
     return { 
