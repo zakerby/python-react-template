@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Trash, Pencil } from 'lucide-react';
 
-
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-
+import IconButton from '../../components/Buttons/IconButton';
 import { useProjectActions } from '../../data/actions/project.action';
 
 const ViewProject = () => {
-  const { fetchProjectDetail, getProject } = useProjectActions();
+  const { fetchProjectDetail, getProject, deleteProject } = useProjectActions();
   // get project detail from getProject using the id in the URL
   const { id: projectId } = useParams<{ id: string }>();
   const parsedId = parseInt(projectId);
@@ -17,6 +16,11 @@ const ViewProject = () => {
   useEffect(() => {
     fetchProjectDetail(parsedId);
   }, [projectId]);
+
+  const handleDeleteProjectBtnClick = () => {
+    // delete project
+    deleteProject(parsedId);
+  };
 
   const pageName = `Project ${project?.name}`;
 
@@ -32,21 +36,13 @@ const ViewProject = () => {
                 {project.name}
               </h2>
               <div className="flex gap-2">
-              <button 
-                  className="inline-flex items-center justify-center gap-2.5 rounded-full border border-primary py-4 px-10 text-center font-medium text-primary hover:bg-opacity-90 lg:px-8 xl:px-10">
-                  <Pencil />
-                  Edit
-                </button>
-              <button 
-                  className="inline-flex items-center justify-center gap-2.5 rounded-full border border-primary py-4 px-10 text-center font-medium text-primary hover:bg-opacity-90 lg:px-8 xl:px-10">
-                  <Trash />
-                  Delete
-                </button>
+                <IconButton icon={Pencil} text="Edit" />
+                <IconButton icon={Trash} text="Delete" onClick={handleDeleteProjectBtnClick} />
               </div>
             </div>
             <p className="text-center text-gray-400">
               Insert content here
-              </p>
+            </p>
           </div>
         </div>
       </div>

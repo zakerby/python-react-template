@@ -2,7 +2,6 @@ import {useAtom} from 'jotai';
 import { useNavigate } from "react-router-dom";
 
 import { projectAtom } from "../state/project";
-import { chatAtom } from "../state/chat";
 import { userAtom } from "../state/user";
 
 import { useProjectsRequest } from "../requests/useProjectsRequest";
@@ -10,9 +9,8 @@ import { useProjectsRequest } from "../requests/useProjectsRequest";
 export const useProjectActions = () => {
     const [user] = useAtom(userAtom);
     const [projects, setProjects] = useAtom(projectAtom);
-    const [chatMessages, setChatMessages] = useAtom(chatAtom);
     const navigate = useNavigate();
-    const { getProjectsRequest, createProjectRequest, getProjectRequest, queryLLMRequest } = useProjectsRequest();
+    const { getProjectsRequest, createProjectRequest, getProjectRequest, deleteProjectRequest } = useProjectsRequest();
 
 
     const fetchProjects = async () => {
@@ -43,33 +41,19 @@ export const useProjectActions = () => {
         navigate(`/view-project/${newProject.id}`);
     }
 
-    const deleteProject = (id: string) => {
+    const deleteProject = async (id: number) => {
+        await deleteProjectRequest(id);
+        setProjects(projects.filter((project) => project.id !== id));
+        navigate('/');
     }
 
     const updateProject = (id: string, name: string, description: string) => {
     }
 
-    const queryLLM = async (id: string, query: string) => {
-        const userMessage = {
-            id: chatMessages.length + 1,
-            project_id: parseInt(id),
-            message: query,
-            user: {
-                id: user.id,
-                name: user.name
-            }
-        };
-        setChatMessages((currentChatMessages) => [...currentChatMessages, userMessage]);
-        const message = await queryLLMRequest(parseInt(id), query);
-        setChatMessages((currentChatMessages) => [...currentChatMessages, message]);
-    }
-
     return {
         projects,
-        chatMessages,
         getProject,
         fetchProjects, fetchProjectDetail,
         createProject, deleteProject, updateProject,
-        queryLLM
     }
 }
