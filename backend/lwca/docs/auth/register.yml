@@ -1,0 +1,40 @@
+tags:
+  - Authentication
+description: Allows a new user to register.
+parameters:
+  - in: body
+    name: user
+    description: User registration details
+    required: true
+    schema:
+      type: object
+      properties:
+        username:
+          type: string
+          example: newuser
+        password:
+          type: string
+          example: securepassword
+        confirm_password:
+          type: string
+          example: securepassword
+        email:
+          type: string
+          example: newuser@example.com
+responses:
+  201:
+    description: User registered successfully.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: User registered successfully
+  400:
+    description: Bad request (e.g., username already exists, invalid email).
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Username already exists
