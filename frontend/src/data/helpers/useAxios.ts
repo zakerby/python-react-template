@@ -1,22 +1,14 @@
 import axios from 'axios';
-import { useAtom } from 'jotai';
 
 import { FULL_URL } from '../requests/common';
-import { useLocalStorage } from './useLocalStorage';
-
-import  {tokenAtom} from '../state/user';
+import { useTokenActions } from '../actions/token.action';
 
 export const useAxios = () => {
-    const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
-    const [token, setToken] = useAtom(tokenAtom);
-
-    const getAuthHeader = () => {
-        return token;
-    }
+    const { getToken, removeToken } = useTokenActions();
 
     const headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getAuthHeader()}`
+        'Authorization': `Bearer ${getToken()}`
     };
 
     const axiosBackend = axios.create({
@@ -43,13 +35,12 @@ export const useAxios = () => {
         if(error.response) {
             if (error.response.status === 401) {
                 // logout the user
-                deleteAccessToken();
+                removeToken();
             }
         } 
     });
 
     return {
-        axiosBackend,
-        getAuthHeader
+        axiosBackend
     }
 }

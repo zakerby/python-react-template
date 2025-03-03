@@ -6,16 +6,13 @@ import Loader from './common/Loader';
 import AuthenticatedLayout from './layout/AuthenticatedLayout';
 import UnauthenticatedLayout from './layout/UnauthenticatedLayout';
 import { ProtectedRoute } from './layout/ProtectedRoute';
-import { useUserActions } from './data/actions/user.action';
+import { useTokenActions } from './data/actions/token.action';
 
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
-  const {getToken} = useUserActions();
-
-  const token =  getToken();
-
+  const {getToken} = useTokenActions();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,7 +30,7 @@ function App() {
   // if the user is authenticated, return the authenticated layout
   // otherwise, return the unauthenticated layout & redirect to the login page
 
-  const CurrentLayout = token !== null ? AuthenticatedLayout : UnauthenticatedLayout;
+  const CurrentLayout = getToken() !== null ? AuthenticatedLayout : UnauthenticatedLayout;
 
   return (
       <CurrentLayout>
