@@ -30,13 +30,20 @@ export const useProjectsRequest = () => {
         const response = await axiosBackend.delete(`/${PROJECT_DOMAIN}/${id}`);
         return response.data;
     }
-    
-    
+
+    const updateProjectRequest = async (id: number, name: string) => {
+        const response = await axiosBackend.put(`/${PROJECT_DOMAIN}/${id}`, {
+            name
+        });
+        const {project: updatedProject} = response.data;
+        return updatedProject;
+    }
 
     return {
         getProjectsRequest,
         getProjectRequest,
         createProjectRequest,
-        deleteProjectRequest
+        deleteProjectRequest,
+        updateProjectRequest
     }
 }

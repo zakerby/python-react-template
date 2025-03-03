@@ -15,6 +15,7 @@ const Buttons = lazy(() => import('./pages/UiElements/Buttons'));
 
 const CreateProject = lazy(() => import('./pages/CreateProject/CreateProject'));
 const ViewProject = lazy(() => import('./pages/ViewProject/ViewProject'));
+const EditProject = lazy(() => import('./pages/EditProject/EditProject'));
 
 const routes = [
     {
@@ -33,6 +34,12 @@ const routes = [
       path: '/view-project/:id',
       title: 'View Project | LWCA',
       component: <><PageTitle title="View Project | LWCA" /><ViewProject /></>,
+      isProtected: true,
+    },
+    {
+      path: '/edit-project/:id',
+      title: 'Edit Project | LWCA',
+      component: <><PageTitle title="Edit Project | LWCA" /><EditProject /></>,
       isProtected: true,
     },
     {

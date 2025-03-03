@@ -10,7 +10,7 @@ export const useProjectActions = () => {
     const [user] = useAtom(userAtom);
     const [projects, setProjects] = useAtom(projectAtom);
     const navigate = useNavigate();
-    const { getProjectsRequest, createProjectRequest, getProjectRequest, deleteProjectRequest } = useProjectsRequest();
+    const { getProjectsRequest, createProjectRequest, getProjectRequest, deleteProjectRequest, updateProjectRequest } = useProjectsRequest();
 
 
     const fetchProjects = async () => {
@@ -47,7 +47,12 @@ export const useProjectActions = () => {
         navigate('/');
     }
 
-    const updateProject = (id: string, name: string, description: string) => {
+    const updateProject = async (id: number, name: string) => {
+        const updatedProject =  await updateProjectRequest(id, name);
+        let projectIndex = projects.findIndex((project) => project.id === id);
+        projects[projectIndex] = updatedProject;
+        setProjects(projects);
+        navigate(`/view-project/${id}`);
     }
 
     return {
