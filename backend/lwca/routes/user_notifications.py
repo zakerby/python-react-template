@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
+from flasgger import swag_from
 
 from lwca.handlers.user_notifications_handler import handle_get_user_notifications
 
