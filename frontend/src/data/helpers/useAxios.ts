@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { FULL_URL } from '../requests/common';
 import { useLocalStorage } from './useLocalStorage';
 
-import  {tokenAtom} from '../atoms/user';
+import  {tokenAtom} from '../state/user';
 
 export const useAxios = () => {
     const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
