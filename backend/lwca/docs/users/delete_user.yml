@@ -1,0 +1,32 @@
+tags:
+  - Users
+description: |
+  Allows a user to delete their own account.
+  Requires a valid JWT token for authentication.
+security:
+  - JWT: []
+responses:
+  200:
+    description: User deleted successfully.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: User deleted successfully
+  401:
+    description: Unauthorized.  Missing or invalid JWT token.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Missing Authorization Header
+  500:
+    description: Internal server error.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to delete user"
