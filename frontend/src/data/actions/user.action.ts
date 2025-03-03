@@ -1,48 +1,44 @@
 import { useNavigate } from "react-router-dom";
 import { useAtom } from 'jotai';
-import { useLocalStorage } from '../helpers/useLocalStorage';
 import { useAuthRequest } from '../requests/useAuthRequest';
 import { useUserSettingsRequest } from '../requests/useUserSettingsRequest';
 import { useUserNotificationsRequest } from '../requests/useUserNotificationsRequest';
 
-import  {userAtom, tokenAtom} from '../state/user';
+import  {userAtom} from '../state/user';
+import { useTokenActions } from '../actions/token.action';
+import { useLocalStorage } from "../helpers/useLocalStorage";
 
 export const useUserActions = () => {
     const navigate = useNavigate();
-    const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
     const { loginRequest, registerRequest } = useAuthRequest();
+    const { getToken, removeToken, setToken } = useTokenActions();
+    const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
 
     const  {getUserSettingsRequest, updateUserSettingsRequest} = useUserSettingsRequest();
     const {getUserNotificationsRequest} = useUserNotificationsRequest();
 
     const [user, setUser] = useAtom(userAtom);
-    const [token, setToken] = useAtom(tokenAtom);
 
     const login = async (username: string, password: string) => {
         const { user, accessToken } = await loginRequest(username, password);
-        const newUser = {
-            ...user,
-            accessToken
-        };
 
         setToken(accessToken);
-        setUser(newUser);
+        setAccessToken(accessToken);
+
+        setUser(user);
         navigate('/');
     }
 
     const register = async (username: string, password: string, confirm_password: string, email: string) => {
         const { user, accessToken } = await registerRequest(username, email, password, confirm_password);
-        const newUser = {
-            ...user,
-            accessToken
-        };
+        setToken(accessToken);
         setAccessToken(accessToken);
-        setUser(newUser);
+        setUser(user);
     }
 
     const logout = () => {
         setUser(null);
-        deleteAccessToken();
+        removeToken();
         // redirect to login
         navigate('/auth/login');
     }
@@ -60,10 +56,6 @@ export const useUserActions = () => {
     const fetchUserNotifications = async () => {
         const userNotifications = await getUserNotificationsRequest();
         return userNotifications;
-    }
-
-    const getToken = () => {
-        return token;
     }
 
     return { 
