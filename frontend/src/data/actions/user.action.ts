@@ -6,11 +6,13 @@ import { useUserNotificationsRequest } from '../requests/useUserNotificationsReq
 
 import  {userAtom} from '../state/user';
 import { useTokenActions } from '../actions/token.action';
+import { useLocalStorage } from "../helpers/useLocalStorage";
 
 export const useUserActions = () => {
     const navigate = useNavigate();
     const { loginRequest, registerRequest } = useAuthRequest();
     const { getToken, removeToken, setToken } = useTokenActions();
+    const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
 
     const  {getUserSettingsRequest, updateUserSettingsRequest} = useUserSettingsRequest();
     const {getUserNotificationsRequest} = useUserNotificationsRequest();
@@ -21,6 +23,8 @@ export const useUserActions = () => {
         const { user, accessToken } = await loginRequest(username, password);
 
         setToken(accessToken);
+        setAccessToken(accessToken);
+
         setUser(user);
         navigate('/');
     }
@@ -28,6 +32,7 @@ export const useUserActions = () => {
     const register = async (username: string, password: string, confirm_password: string, email: string) => {
         const { user, accessToken } = await registerRequest(username, email, password, confirm_password);
         setToken(accessToken);
+        setAccessToken(accessToken);
         setUser(user);
     }
 

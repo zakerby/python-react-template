@@ -13,9 +13,6 @@ export const useTokenActions = () => {
 
     const setToken = (token: string) => {
         setTokenAtom(token);
-        if (token !== null && token !== 'null') {
-            setAccessToken(token);
-        }
     }
 
     const removeToken = () => {
