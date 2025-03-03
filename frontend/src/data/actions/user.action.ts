@@ -63,6 +63,13 @@ export const useUserActions = () => {
     }
 
     const getToken = () => {
+        if(token == null) {
+            // Try to get the token from the local storage
+            const [storedAccessToken, setAccessToken, deleteAccessToken] = useLocalStorage('accessToken', null);
+            if(storedAccessToken) {
+                setToken(storedAccessToken);
+            }
+        }
         return token;
     }
 
