@@ -1,9 +1,8 @@
-import { atom } from 'jotai';
-import { User } from '../types/user';
+import { atom } from "jotai";
 
-const userAtom = atom(
-    localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) as User : null
-);
+import { User } from "../types/user";
 
+const userAtom = atom<User | null>(null);
+const tokenAtom =  atom<string | null>(null);
 
-export { userAtom }
+export { userAtom, tokenAtom };
