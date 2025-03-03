@@ -7,12 +7,24 @@ import AuthenticatedLayout from './layout/AuthenticatedLayout';
 import UnauthenticatedLayout from './layout/UnauthenticatedLayout';
 import { ProtectedRoute } from './layout/ProtectedRoute';
 import { useTokenActions } from './data/actions/token.action';
+import { useLocalStorage } from './data/helpers/useLocalStorage';
 
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
-  const {getToken} = useTokenActions();
+  const {getToken, setToken} = useTokenActions();
+  const [storedToken, ...rest] = useLocalStorage('accessToken', null);
+
+  // Initialize token from localStorage
+  useEffect(() => {
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, [setToken]); // Only run once on component mount, but include setToken in the dependency array
+
+
+  const token = getToken();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -30,7 +42,7 @@ function App() {
   // if the user is authenticated, return the authenticated layout
   // otherwise, return the unauthenticated layout & redirect to the login page
 
-  const CurrentLayout = getToken() !== null ? AuthenticatedLayout : UnauthenticatedLayout;
+  const CurrentLayout = token !== null ? AuthenticatedLayout : UnauthenticatedLayout;
 
   return (
       <CurrentLayout>
