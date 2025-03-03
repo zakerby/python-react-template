@@ -20,11 +20,12 @@ def get_user_settings():
 
 @blueprint.route('/api/v1/user/settings', methods=['PUT'])
 @jwt_required()
-# @swag_from('../docs/users_settings/update_user_settings.yml')
+@swag_from('../docs/users_settings/update_user_settings.yml')
 def update_user_settings():
     """
     Update User Settings endpoint
     ---
+
     """
     if request.method == 'PUT':
         return jsonify({}), 200

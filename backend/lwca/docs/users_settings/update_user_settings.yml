@@ -57,4 +57,4 @@ responses:
       properties:
         message:
           type: string
-        example: "Failed to update user settings"
+          example: "Failed to update user settings"
