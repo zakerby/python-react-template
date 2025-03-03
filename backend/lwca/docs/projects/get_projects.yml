@@ -1,0 +1,38 @@
+tags:
+  - Projects
+description: Returns a list of all projects. Requires a valid JWT token.
+security:
+  - JWT: []
+responses:
+  200:
+    description: A list of projects.
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          name:
+            type: string
+            example: My Project
+          description:
+            type: string
+            example: A description of my project.
+  401:
+    description: Unauthorized.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Missing Authorization Header
+  500:
+    description: Internal server error.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to retrieve projects"

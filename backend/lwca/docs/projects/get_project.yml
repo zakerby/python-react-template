@@ -1,0 +1,50 @@
+tags:
+  - Projects
+description: Returns a project by its ID. Requires a valid JWT token.
+security:
+  - JWT: []
+parameters:
+  - in: path
+    name: project_id
+    description: ID of the project to retrieve.
+    required: true
+    type: integer
+responses:
+  200:
+    description: The requested project.
+    schema:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: My Project
+        description:
+          type: string
+          example: A description of my project.
+  401:
+    description: Unauthorized.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Missing Authorization Header
+  404:
+    description: Project not found.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Project not found
+  500:
+    description: Internal server error.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to retrieve project"

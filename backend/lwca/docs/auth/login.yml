@@ -1,0 +1,36 @@
+tags:
+  - Authentication
+description: |
+  Allows a user to log in using their username and password.
+  Generates a JWT token for the user upon successful authentication.
+parameters:
+  - in: body
+    name: credentials
+    description: User login credentials
+    required: true
+    schema:
+      type: object
+      properties:
+        username:
+          type: string
+          example: johndoe
+        password:
+          type: string
+          example: password123
+responses:
+  200:
+    description: Authentication successful. Returns a JWT token.
+    schema:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+  401:
+    description: Invalid credentials.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Invalid username or password
