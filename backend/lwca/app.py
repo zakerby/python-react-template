@@ -11,6 +11,8 @@ from lwca.schemas import ma
 from lwca.settings import Settings as S
 from lwca.tasks import make_celery
 
+from lwca.config.swagger import get_swagger_config
+from lwca.config.routes import register_routes
 
 class Application:
     """
@@ -29,14 +31,13 @@ class Application:
 
     def __init__(self):
         self.init_flask()
-        self.init_routes()
 
     def init_flask(self):
         # Init Flask
         self.flask_app = Flask(__name__, static_url_path='/static')
         self.flask_app.config.from_object(S)
         # Register the public routes
-        self.register_routes()
+        register_routes(self.flask_app)
         self.init_extensions()
         
     def init_extensions(self):
@@ -65,25 +66,6 @@ class Application:
         # Init JWT
         self.jwt = JWTManager(self.flask_app)
         # Init Swagger
-        Swagger(self.flask_app)
+        Swagger(self.flask_app, config=get_swagger_config())
         
-    def register_routes(self):
-        # Register the public routes
-        # TODO: Update this to add url_prefix to organize the API
-        # ex: app.register_blueprint(bp, url_prefix='/project')
-        
-        app_routes = [
-            routes.auth,
-            routes.users,
-            routes.users_settings,
-            routes.user_notifications,
-            routes.projects
-        ]
-        
-        for blueprint in app_routes:
-            self.flask_app.register_blueprint(blueprint)
 
-    def init_routes(self):
-        @self.flask_app.route('/')
-        def home(key):
-            return 'home'
