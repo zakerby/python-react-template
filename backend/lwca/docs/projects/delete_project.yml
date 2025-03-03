@@ -1,0 +1,44 @@
+tags:
+  - Projects
+description: Deletes a project by its ID. Requires a valid JWT token.
+security:
+  - JWT: []
+parameters:
+  - in: path
+    name: project_id
+    description: ID of the project to delete.
+    required: true
+    type: integer
+responses:
+  200:
+    description: Project deleted successfully.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Project deleted successfully.
+  401:
+    description: Unauthorized.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Missing Authorization Header
+  404:
+    description: Project not found.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Project not found
+  500:
+    description: Internal server error.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to delete project"

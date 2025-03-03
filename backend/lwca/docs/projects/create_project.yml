@@ -1,0 +1,52 @@
+tags:
+  - Projects
+description: Creates a new project. Requires a valid JWT token.
+security:
+  - JWT: []
+parameters:
+  - in: body
+    name: project_data
+    description: Project details.
+    required: true
+    schema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: My Project
+        description:
+          type: string
+          example: A description of my project.
+responses:
+  201:
+    description: Project created successfully.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Project created successfully.
+  400:
+    description: Bad request.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid input."
+  401:
+    description: Unauthorized.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Missing Authorization Header
+  500:
+    description: Internal server error.
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Failed to create project"
