@@ -4,7 +4,7 @@ description: |
   Allows a user to get their own notifications.
   Requires a valid JWT token for authentication.
 security:
-  - JWT: []
+  - bearerAuth: []
 responses:
   200:
     description: User notifications retrieved successfully.
