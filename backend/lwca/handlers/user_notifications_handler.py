@@ -3,7 +3,9 @@ from http import HTTPStatus
 from datetime import datetime
 from lwca.models.user_notification import UserNotification
 from lwca.models.user import User
+from lwca.schemas.user_notification import UserNotificationSchema
 
+user_notifications_schema = UserNotificationSchema(many=True)
 
 def handle_init_user_notifications(user_id):
     """
@@ -35,4 +37,4 @@ def  handle_get_user_notifications():
     current_user_id = get_jwt_identity()
     # Get all user notifications for the current user
     user = User.query.get(current_user_id)
-    return [user_notification.to_dict() for user_notification in user.user_notifications], HTTPStatus.OK
+    return user_notifications_schema.dump(user.user_notifications), HTTPStatus.OK

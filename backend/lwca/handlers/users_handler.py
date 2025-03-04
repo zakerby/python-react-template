@@ -61,7 +61,7 @@ def handle_create_user(username: str, email: str, password: str):
                   
             # Generate a JWT token to allow auto login
             access_token = create_access_token(identity=user.id)
-            return {'access_token': access_token, 'user': user.to_dict()}, HTTPStatus.OK
+            return {'access_token': access_token, 'user': user_schema.dump(user)}, HTTPStatus.OK
         else:
             return {'message': USER_ALREADY_EXISTS}, HTTPStatus.CONFLICT
     except Exception as e:
