@@ -43,7 +43,3 @@ class Settings:
     # JWT
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'fake-jwt-key')
     JWT_ACCESS_TOKEN_EXPIRES = os.getenv('JWT_ACCESS_TOKEN_EXPIRES', 3600)
-
-    # ChromaDB
-    CHROMADB_HOST = os.getenv('CHROMADB_HOST', 'chromadb')
-    CHROMADB_PORT = os.getenv('CHROMADB_PORT', '8081')
