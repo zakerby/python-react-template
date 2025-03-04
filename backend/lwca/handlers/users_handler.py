@@ -11,8 +11,16 @@ from lwca.handlers.constants import (
     ERROR_CREATING_USER,
     USER_ALREADY_EXISTS
 )
-
 from lwca.handlers.user_notifications_handler import handle_init_user_notifications
+
+
+def handle_get_user():
+    current_user_id = get_jwt_identity()
+    user = User.query.filter_by(id=current_user_id).first()
+    if user is not None:
+        return {'user': user.to_dict()}, HTTPStatus.OK
+    else:
+        return {'message': USER_NOT_FOUND}, HTTPStatus.NOT_FOUND
 
 def handle_delete_user():
     current_user_id = get_jwt_identity()
