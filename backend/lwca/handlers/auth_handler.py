@@ -14,6 +14,9 @@ from lwca.handlers.constants import (
     NO_PAYLOAD_PROVIDED,
     PASSWORDS_DO_NOT_MATCH,
 )
+from lwca.schemas.user import UserSchema
+
+user_schema = UserSchema()
 
 def handle_login_user(data):
     """
@@ -32,7 +35,7 @@ def handle_login_user(data):
             if user is not None:
                 if user.check_password(password):
                     access_token = create_access_token(identity=user.id)
-                    return {'access_token': access_token, 'user': user.to_dict()}, HTTPStatus.OK
+                    return {'access_token': access_token, 'user': user_schema.dump(user)}, HTTPStatus.OK
                 else:
                     return {'message': INCORRECT_PASSWORD}, HTTPStatus.UNAUTHORIZED
             else:

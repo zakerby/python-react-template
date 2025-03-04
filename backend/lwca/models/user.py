@@ -1,9 +1,7 @@
 from lwca.models import db
 from lwca.models.base import Base
 
-import datetime
 from flask_bcrypt import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy
 
 # The User class is a data model for user accounts
 class User(Base):
@@ -16,7 +14,6 @@ class User(Base):
     password = db.Column(db.String(500), nullable=False)
     
     # Relationships
-    projects = db.relationship('Project', backref='user', lazy=True, cascade="all, delete-orphan")
     user_settings = db.relationship('UserSettings', backref='user', lazy=True, cascade="all, delete-orphan", uselist=False)
     user_notifications = db.relationship('UserNotification', backref='user', lazy=True, cascade="all, delete-orphan", uselist=True)
     

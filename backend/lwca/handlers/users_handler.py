@@ -13,12 +13,16 @@ from lwca.handlers.constants import (
 )
 from lwca.handlers.user_notifications_handler import handle_init_user_notifications
 
+from lwca.schemas.user import UserSchema
+
+user_schema = UserSchema()
+
 
 def handle_get_user():
     current_user_id = get_jwt_identity()
     user = User.query.filter_by(id=current_user_id).first()
     if user is not None:
-        return {'user': user.to_dict()}, HTTPStatus.OK
+        return {'user': user_schema.dump(user)}, HTTPStatus.OK
     else:
         return {'message': USER_NOT_FOUND}, HTTPStatus.NOT_FOUND
 
@@ -57,7 +61,7 @@ def handle_create_user(username: str, email: str, password: str):
                   
             # Generate a JWT token to allow auto login
             access_token = create_access_token(identity=user.id)
-            return {'access_token': access_token, 'user': user.to_dict()}, HTTPStatus.OK
+            return {'access_token': access_token, 'user': user_schema.dump(user)}, HTTPStatus.OK
         else:
             return {'message': USER_ALREADY_EXISTS}, HTTPStatus.CONFLICT
     except Exception as e:

@@ -35,7 +35,7 @@ def handle_create_project(data):
                 project = Project(name=name, user_id=current_user_id)
                 project.save()
                 log_info(f'Project {project.name} created by user {current_user_id}')
-                return {'message': PROJECT_CREATED, 'project': project.to_dict()}, HTTPStatus.CREATED
+                return {'message': PROJECT_CREATED, 'project': project_schema.dump(project)}, HTTPStatus.CREATED
             except Exception as e:
                 log_error(f'Error saving project: {str(e)}')
                 return {'message': ERROR_SAVING_PROJECT.format(str(e))}, HTTPStatus.INTERNAL_SERVER_ERROR
@@ -62,7 +62,7 @@ def handle_get_project(project_id):
     
     project = Project.query.filter_by(id=project_id, user_id=current_user_id).first()
     if project is not None:
-        return project_schema.dump(project) , HTTPStatus.OK
+        return project_schema.dump(project), HTTPStatus.OK
     return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
 
 def handle_delete_project(project_id):
