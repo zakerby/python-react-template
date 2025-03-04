@@ -62,7 +62,7 @@ def handle_get_project(project_id):
     
     project = Project.query.filter_by(id=project_id, user_id=current_user_id).first()
     if project is not None:
-        return project_schema.dump(project) , HTTPStatus.OK
+        return project_schema.dump(project), HTTPStatus.OK
     return {'message': PROJECT_NOT_FOUND}, HTTPStatus.NOT_FOUND
 
 def handle_delete_project(project_id):

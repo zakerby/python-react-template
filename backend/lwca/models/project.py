@@ -1,7 +1,5 @@
-
 from lwca.models import db
 from lwca.models.base import Base
-
 
 class Project(Base):
     """
@@ -11,6 +9,7 @@ class Project(Base):
 
     name = db.Column(db.String(64))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref='projects')
     
     def to_dict(self):
         """
