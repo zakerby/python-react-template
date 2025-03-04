@@ -2,7 +2,7 @@ tags:
   - Projects
 description: Updates a project by its ID.
 security:
-  - JWT: []
+  - bearerAuth: []
 parameters:
   - in: path
     name: project_id

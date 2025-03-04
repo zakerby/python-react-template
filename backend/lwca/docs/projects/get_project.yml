@@ -2,7 +2,7 @@ tags:
   - Projects
 description: Returns a project by its ID. Requires a valid JWT token.
 security:
-  - JWT: []
+  - bearerAuth: []
 parameters:
   - in: path
     name: project_id

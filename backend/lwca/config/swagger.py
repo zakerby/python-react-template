@@ -5,6 +5,14 @@ def get_swagger_config():
     return {
         "headers": [
         ],
+        "securityDefinitions": {
+            'bearerAuth': {
+                'type': 'apiKey',
+                'name': 'Authorization',
+                'in': 'header',
+                'description': 'JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer {token}"'
+            },
+        },
         "specs": [
             {
                 "endpoint": 'lwca',
