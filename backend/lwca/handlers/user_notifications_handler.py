@@ -36,5 +36,5 @@ def handle_init_user_notifications(user_id):
 def  handle_get_user_notifications():
     current_user_id = get_jwt_identity()
     # Get all user notifications for the current user
-    user = User.query.get(current_user_id)
-    return user_notifications_schema.dump(user.user_notifications), HTTPStatus.OK
+    user_notifications = UserNotification.query.filter_by(user_id=current_user_id).all()
+    return user_notifications_schema.dump(user_notifications), HTTPStatus.OK
